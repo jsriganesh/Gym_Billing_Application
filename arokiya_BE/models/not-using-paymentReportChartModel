@@ -1,0 +1,14 @@
+const mongoose = require('mongoose')
+const dietPlanSchema = mongoose.Schema(
+    [{
+        labels:[String],
+        datasets:[{
+            data:[Number]
+        }]
+    }
+    ]
+    )
+
+const DietPlans = mongoose.model('',dietPlanSchema)
+
+module.exports = DietPlans
