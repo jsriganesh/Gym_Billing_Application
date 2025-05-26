@@ -1,0 +1,26 @@
+@import './scss/abstracts/variables';
+
+.App {
+  background-color: $app-background;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  // padding: 1rem;
+
+  .Navigation-container{
+    height: 93%;
+    .sidemenu-container{
+      background-color: $app-sidemenu;
+      width: 20%;
+      height: 100%;
+      border-top-right-radius: 0.5rem;
+      border-bottom-right-radius: 0.5rem;
+    }
+    .body-container{
+      width: 80%;
+    }
+  }
+  .application-footer{
+    height: 7%;
+  }
+}

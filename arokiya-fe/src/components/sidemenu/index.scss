@@ -1,0 +1,69 @@
+@import '../../scss/abstracts/variables';
+
+.sidemenu{
+    height: 100%;
+
+    .logo-constiner{
+        flex-direction: row;
+        padding: 2rem 1rem;
+        display: flex;
+        justify-content: space-evenly;
+        align-items: center;
+        .logo-style{
+            height: 5rem;
+            width: 5rem;
+        }
+        .logo-text{
+            height: 3rem;
+            width: 10rem;
+        }
+    }
+
+    .user-constiner{
+        flex-direction: row;
+        padding: 2rem 1rem;
+        display: flex;
+        .logo-style{
+            margin: 0 1rem;
+            border-radius: 50px;
+            border: 3px solid yellow;
+            height: 3.5rem;
+            width: 3.5rem;
+        }
+        .profile-name{
+            font-family: $font-normal;
+            font-size: 1.2rem;
+            color: $white;
+        }
+        .email-name{
+            font-family: $font-normal;
+            font-size: 1rem;
+            color: $yellow;
+        }
+    }
+    .underline{
+        height: 1px;
+        width: 100%;
+        justify-content: center;
+        opacity: 0.1;
+        background-color: $white;
+    }
+
+    .side-menu__list{
+        cursor: pointer;
+        display: flex;
+        flex-direction: row;
+        margin: 3rem 2rem;
+        &--icon{
+            margin-right: 1.5rem;
+            width: 2rem;
+            height: 2rem;
+        }
+
+        &--text{
+            font-family: $font-medium;
+            font-size: 1.5rem;
+            color: #CFCACA;
+        }
+    }
+}

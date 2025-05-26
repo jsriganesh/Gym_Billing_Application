@@ -1,0 +1,24 @@
+$app-background:#373946;
+$app-sidemenu:#323441;
+$fontSize12px: 12px;
+$white:#FFFFFF;
+$green:#36793F;
+$yellow:#FAF754;
+
+@font-face {
+    font-family: 'Poppins-Bold';
+    src: url('../../assets/fonts/Poppins-Black.ttf');
+};
+
+@font-face {
+    font-family: 'Poppins-Light';
+    src: url('../../assets/fonts/Poppins-Light.ttf');
+};
+@font-face {
+    font-family: 'Poppins-Medium';
+    src: url('../../assets/fonts/Poppins-Medium.ttf');
+};
+
+$font-bold: 'Poppins-Bold';
+$font-normal: 'Poppins-Light'; 
+$font-medium: 'Poppins-Medium'
