@@ -8,19 +8,21 @@
   // padding: 1rem;
 
   .Navigation-container{
-    height: 93%;
+    height: 94%;
+    display: flex;
+    flex-direction: row;
     .sidemenu-container{
       background-color: $app-sidemenu;
-      width: 20%;
+      width: 15%;
       height: 100%;
       border-top-right-radius: 0.5rem;
       border-bottom-right-radius: 0.5rem;
     }
     .body-container{
-      width: 80%;
+      width: 90%;
     }
   }
   .application-footer{
-    height: 7%;
+    height: 6%;
   }
 }

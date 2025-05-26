@@ -1,12 +1,15 @@
 import React from 'react'
 import SideMenu from '../../components/sidemenu'
+import Header from '../../components/header'
 
 export default function Dashboard() {
     return (
         <div className="App">
             <div className='Navigation-container'>
                 <div className='sidemenu-container'><SideMenu/></div>
-                <div className='body-container'>{''}</div>
+                <div className='body-container'>
+                    <Header/>
+                </div>
             </div>
             
             <div className='application-footer'>
