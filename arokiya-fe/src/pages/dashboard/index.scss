@@ -1,0 +1,14 @@
+@import '../../scss/abstracts/variables';
+
+.dashboard-container {
+    padding: 0 1rem;
+    .dashboard-sub-title {
+        color: $white;
+        padding: 0;
+        line-height: 1;
+    }
+    .dashboard-cardsRow{
+        display: flex;
+        flex-direction: row;
+    }
+}
