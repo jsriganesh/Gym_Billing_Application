@@ -17,7 +17,7 @@ export default function Dashboard() {
     return (
         <PageLayout>
             <div>
-                <h5 className='body-sub-title'>Totay's Report</h5>
+                <div className='body-sub-title'>Totay's Report</div>
                 <div className='dashboard-cardsRow'>
                     <BasicCards cardDetails={sampleData} />
                     <BasicCards cardDetails={sampleData} />

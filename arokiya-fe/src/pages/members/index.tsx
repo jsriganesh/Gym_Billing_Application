@@ -39,8 +39,17 @@ const Members = () => {
     return (
         <PageLayout>
             <div className="category-container">
-                <h5 className='body-sub-title'>All members</h5>
+                <div className='body-sub-title'>All members</div>
                 <Datatable />
+
+                {/* <div style={{
+                    borderRadius:100,
+                    backgroundColor:'pink',
+                    height:100,
+                    width:100,
+                    bottom:0,
+                    right:0
+                }}></div> */}
             </div>
         </PageLayout>
     );

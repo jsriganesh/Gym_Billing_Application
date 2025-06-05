@@ -1,6 +1,8 @@
 @import '../../scss/abstracts/variables';
 
 .dashboard-container {
+    height: 94%;
+    position: relative;
     padding: 0 1rem;
     .dashboard-sub-title {
         color: $white;
