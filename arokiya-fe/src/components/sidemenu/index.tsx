@@ -1,11 +1,16 @@
 import React from 'react'
 
 import './index.scss'
+import { NavigateFunction, useNavigate } from 'react-router-dom';
 
 
+interface SideMenuProps {
+}
 
 
-export default function SideMenu() {
+const  SideMenu=({
+}:SideMenuProps)=> {
+  const navigate = useNavigate();
 
   const renderLogo = () => {
     return (
@@ -40,12 +45,12 @@ export default function SideMenu() {
       <div>
         <div className='side-menu__list' onClick={()=>{console.log('1')}}>
           <div ><img className='side-menu__list--icon' alt='Dashboard' src={require('../../assets/images/sidemenu/dashboard.png')}/></div>
-          <div className='side-menu__list--text'>{'Dashboard'}</div>
+          <div className='side-menu__list--text' onClick={()=>navigate('/dashboard')}>{'Dashboard'}</div>
         </div>
 
         <div className='side-menu__list'>
           <div ><img className='side-menu__list--icon' alt='Members' src={require('../../assets/images/sidemenu/members.png')}/></div>
-          <div className='side-menu__list--text'>{'Members'}</div>
+          <div className='side-menu__list--text' onClick={()=>navigate('/members')}>{'Members'}</div>
         </div><div className='side-menu__list'>
           <div ><img className='side-menu__list--icon' alt='Report' src={require('../../assets/images/sidemenu/report.png')}/></div>
           <div className='side-menu__list--text'>{'Report'}</div>
@@ -64,3 +69,5 @@ export default function SideMenu() {
     </div>
   )
 }
+
+export default SideMenu
