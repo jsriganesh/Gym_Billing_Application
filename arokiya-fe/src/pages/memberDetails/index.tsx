@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { IconButton, Typography, Box, FormControl, FormLabel, RadioGroup, FormControlLabel, Radio, TextField, Grid } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import { useLocation } from 'react-router-dom';
@@ -18,6 +18,8 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs, { Dayjs } from 'dayjs';
 import CommonDatePicker from '../../components/datepicker';
+import AutoCompleteDropDown from '../../components/autoCompleteDropDown';
+import { bloodGroupList, genderList } from '../../utils/constant';
 
 
 interface TabPanelProps {
@@ -55,6 +57,20 @@ interface MemberDetailsProps {
   lastPaymentDate: string;
 }
 
+
+interface PaymentDetailsProps {
+  plan: any;
+  // collectAdvance:string,
+  advanceAmount: string
+}
+
+
+const defaultPaymentDetails: PaymentDetailsProps = {
+  plan: {},
+  // collectAdvance:'',
+  advanceAmount: ''
+}
+
 const defaultUserDetails: MemberDetailsProps = {
   memberName: '',
   mobileNumber: '',
@@ -73,8 +89,9 @@ const MemberDetails = () => {
   const location = useLocation();
   const { isCreateMember } = location.state || {};
 
-  const [collectAdvance, updateCollectAdvance] = React.useState('yes');
+  const [collectAdvance, updateCollectAdvance] = React.useState('no');
 
+  const [paymentDetails, setPaymentDetails] = React.useState<PaymentDetailsProps>(defaultPaymentDetails);
 
   const [memberDetails, setMemberDetails] = React.useState<MemberDetailsProps>(defaultUserDetails);
   const [selectedTab, upsateSelecetedTab] = React.useState(0);
@@ -135,6 +152,18 @@ const MemberDetails = () => {
     updateMemberDetails = { ...updateMemberDetails, [key]: value }
     setMemberDetails(updateMemberDetails)
   }
+
+  const onChangePaymentDetails = (key: string, value: string) => {
+    let updatePaymentDetails = { ...paymentDetails }
+    // updateMemberDetails[key]= value
+    updatePaymentDetails = { ...updatePaymentDetails, [key]: value }
+    setPaymentDetails(updatePaymentDetails)
+  }
+
+
+  useEffect(() => {
+    collectAdvance === 'no' && onChangePaymentDetails('advanceAmount', '')
+  }, [collectAdvance])
 
   const advanceAmountView = () => {
     return (
@@ -200,197 +229,33 @@ const MemberDetails = () => {
               <UserDetails mode={viewMode} label='Mobile No' value={memberDetails.mobileNumber} onChange={(value) => onChangeMemberdetails('mobileNumber', value)} />
               <UserDetails mode={viewMode} label='Email ID' value={memberDetails.emailId} onChange={(value) => onChangeMemberdetails('emailId', value)} />
               <UserDetails mode={viewMode} label='Address' value={memberDetails.address} onChange={(value) => onChangeMemberdetails('address', value)} />
-              <UserDetails mode={viewMode} label='Blood Group' value={memberDetails.bloodGroup} onChange={(value) => onChangeMemberdetails('bloodGroup', value)} />
-              <UserDetails mode={viewMode} label='Gender' value={memberDetails.gender} onChange={(value) => onChangeMemberdetails('gender', value)} />
-
-              {/* <DatePicker
-  mask="mm"
-  value={new Date()}
-  onChange={console.log}
-  renderInput={(props:any) => (
-    <TextField {...props} helperText="invalid mask" />
-  )}
-/> */}
-
-
-<CommonDatePicker selectedDate={dob} setSelectedDate={setDOB} label='Date of birth' />
-<CommonDatePicker selectedDate={doj} setSelectedDate={setDOJ} label='Date of join' />
-<CommonDatePicker selectedDate={lpd} setSelectedDate={setLPD} label='Last payment date' />
-              {/* <Box sx={{ p: 1.5 }}>
-                <Grid container spacing={2}>
-
-
-                  <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DatePicker
-                      format='DD-MM-YYYY'
-                      label="Select Date"
-                      value={selectedDate}
-                      onChange={(newValue) => setSelectedDate(newValue)}
-                      // renderInput={(params:any) => <TextField {...params} />}
-                      slotProps={{
-                        textField: {
-                          variant: 'outlined',
-                          sx: {
-                            width: 195,
-                            // backgroundColor: '#464545',       // match dark bg
-                            color: '#B0B0B0',                 // text color
-                            '& .MuiInputBase-input': {
-                              color: '#B0B0B0',              // input text
-                              // backgroundColor: '#464545',
-                            },
-                            '& .MuiOutlinedInput-root': {
-                              '& fieldset': {
-                                // borderColor: 'red',      // border
-                                // backgroundColor: '#464545',
-                              },
-                              '&:hover fieldset': {
-                                borderColor: '#D0D0D0',      // subtle hover
-                              },
-                              '&.Mui-focused fieldset': {
-                                borderColor: '#D0D0D0',      // subtle focus
-                              },
-                            },
-                            '& .MuiInputLabel-root': {
-                              color: '#888888',              // label color
-                            },
-                            '& .MuiInputLabel-root.Mui-focused': {
-                              color: '#00bcd4',              // focused label color
-                            },
-                            '& .MuiSvgIcon-root': {
-                              color: '#888888',              // calendar icon
-                            },
-
-                            '& .MuiPickersOutlinedInput-root': {
-                              // border:'1px solid red'
-                              color: 'white',
-                              backgroundColor: '#464545',
-
-
-                            },
-                            '& .MuiPickersOutlinedInput-notchedOutline': {
-                              borderColor: '#888888 !important'
-                            },
-                            // '& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline': {
-                            //   borderColor: '#D0D0D0',
-                            // },
-
-                            // '& .MuiPickersInputBase-root-MuiPickersOutlinedInput-root
-
-                            // '& .MuiPickersOutlinedInput-root':{
-                            //   color
-                            // },
-
-                            // 🔸 Border (Notched Outline)
-                            '& .MuiOutlinedInput-notchedOutline': {
-                              borderColor: '#888888', // your desired border color
-                            },
-                            '& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline': {
-                              borderColor: '#D0D0D0',
-                            },
-                            '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                              borderColor: 'red !important',
-                            },
-                            '& .MuiOutlinedInput-root.Mui-focused:not(.Mui-error) .MuiOutlinedInput-notchedOutline': {
-                              borderColor: 'red', // or your preferred color
-                            },
-
-                            // Focus border override (removes MUI blue)
-                            // '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                            //   borderColor: '#B0B0B0', // <-- your custom focus color
-                            // },
-
-
-                            // // 🔸 Label
-                            // '& .MuiInputLabel-root': {
-                            //   color: '#B0B0B0',
-                            // },
-                            // '& .MuiInputLabel-root.Mui-focused': {
-                            //   color: '#B0B0B0',
-                            // },
-                          },
-                        },
-                      }}
-
-                    // slotProps={{
-                    //   textField: {
-                    //     variant: 'outlined',
-                    //     sx: {
-                    //       width: 170,
-
-                    //       // 🔸 Input Text
-                    // '& .MuiInputBase-input': {
-                    //   color: '#B0B0B0', // your desired text color
-                    // },
-
-                    // // 🔸 Label
-                    // '& .MuiInputLabel-root': {
-                    //   color: '#B0B0B0',
-                    // },
-                    // '& .MuiInputLabel-root.Mui-focused': {
-                    //   color: '#B0B0B0',
-                    // },
-
-                    //       // 🔸 Border (Notched Outline)
-                    //       '& .MuiOutlinedInput-notchedOutline': {
-                    //         borderColor: '#B0B0B0', // your desired border color
-                    //       },
-                    //       '& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline': {
-                    //         borderColor: '#D0D0D0',
-                    //       },
-                    //       '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
-                    //         borderColor: '#D0D0D0',
-                    //       },
-
-                    // // 🔸 Calendar Icon
-                    // '& .MuiSvgIcon-root': {
-                    //   color: '#B0B0B0',
-                    // },
-                    //     },
-                    //   },
-                    // }}
-
-                    />
-                  </LocalizationProvider>
-                </Grid>
-              </Box> */}
-              {/* <UserDetails mode={viewMode} label='Date of birth' value={memberDetails.dateOfBirth} onChange={(value) => onChangeMemberdetails('dateOfBirth',value)}  /> */}
-              {/* <UserDetails mode={viewMode} label='Date of join' value={memberDetails.dateOfJoin} onChange={(value) => onChangeMemberdetails('dateOfJoin', value)} />
-              <UserDetails mode={viewMode} label='Last payment date' value={memberDetails.lastPaymentDate} onChange={(value) => onChangeMemberdetails('lastPaymentDate', value)} /> */}
-
-              {/* <UserDetails mode={viewMode} label='Member Name' value='Sriganesh' onChange={() => { }} />
-              <UserDetails mode={viewMode} label='Member Name' value='Sriganesh' onChange={() => { }} />
-              <UserDetails mode={viewMode} label='Member Name' value='Sriganesh' onChange={() => { }} />
-              <UserDetails mode={viewMode} label='Member Name' value='Sriganesh' onChange={() => { }} />
-              <UserDetails mode={viewMode} label='Member Name' value='Sriganesh' onChange={() => { }} />
-              <UserDetails mode={viewMode} label='Member Name' value='Sriganesh' onChange={() => { }} /> */}
-
+              {/* <UserDetails mode={viewMode} label='Blood Group' value={memberDetails.bloodGroup} onChange={(value) => onChangeMemberdetails('bloodGroup', value)} /> */}
+              <AutoCompleteDropDown options={bloodGroupList} mode={viewMode} label='Blood Group' value={memberDetails.bloodGroup} onChange={(value) => onChangeMemberdetails('bloodGroup', value)} />
+              <AutoCompleteDropDown options={genderList} mode={viewMode} label='Gender' value={memberDetails.gender} onChange={(value) => onChangeMemberdetails('gender', value)} />
+              
+              <CommonDatePicker selectedDate={dob} setSelectedDate={setDOB} label='Date of birth' />
+              <CommonDatePicker selectedDate={doj} setSelectedDate={setDOJ} label='Date of join' />
+              <CommonDatePicker selectedDate={lpd} setSelectedDate={setLPD} label='Last payment date' />
             </div>
           </div>
 
 
-          <div style={{ height:'1px',backgroundColor:'##FFFFFF',opacity:0.1,marginTop: '1rem',}}/>
+          <div style={{ height: '1px', backgroundColor: '##FFFFFF', opacity: 0.1, marginTop: '1rem', }} />
           <div style={{ display: 'flex', flexDirection: 'row', width: '100%', marginTop: '1rem', paddingLeft: 120 }}>
 
             <div style={{ display: 'flex', flexDirection: 'row', alignItems: "center", marginRight: '7rem' }}>
               <div className='body-sub-title'>Select plan</div>
-              <UserDetails mode={viewMode} label='Member Name' value={memberDetails.memberName} onChange={(value) => onChangeMemberdetails('memberName', value)} />
+              <AutoCompleteDropDown options={genderList} mode={viewMode} label='Plan' value={paymentDetails.plan} onChange={(value) => onChangePaymentDetails('plan', value)} />
             </div>
 
             <div style={{ display: 'flex', flexDirection: 'row', alignItems: "center" }}>
               <div className='body-sub-title'>choose yes, if we collect <br />advance amount</div>
               {advanceAmountView()}
+              {collectAdvance === 'yes' && <UserDetails inputType='number' mode={viewMode} label='Advance Amount' value={paymentDetails.advanceAmount} onChange={(value) => onChangePaymentDetails('advanceAmount', value)} />}
+            
+              <UserDetails mode={viewMode} label='Paid Amount' value={memberDetails.address} onChange={(value) => onChangeMemberdetails('address', value)} />
+
             </div>
-
-
-            {/* <UserDetails mode={viewMode} label='Member Name' value={memberDetails.memberName} onChange={(value) => onChangeMemberdetails('memberName',value)} />
-              <UserDetails mode={viewMode} label='Mobile No' value={memberDetails.mobileNumber} onChange={(value) => onChangeMemberdetails('mobileNumber',value)} />
-              <UserDetails mode={viewMode} label='Email ID' value={memberDetails.emailId} onChange={(value) => onChangeMemberdetails('emailId',value)} />
-              <UserDetails mode={viewMode} label='Address' value={memberDetails.address} onChange={(value) => onChangeMemberdetails('address',value)}  />
-              <UserDetails mode={viewMode} label='Blood Group' value={memberDetails.bloodGroup} onChange={(value) => onChangeMemberdetails('bloodGroup',value)}  />
-              <UserDetails mode={viewMode} label='Gender' value={memberDetails.gender} onChange={(value) => onChangeMemberdetails('gender',value)} />
-              <UserDetails mode={viewMode} label='Date of birth' value={memberDetails.dateOfBirth} onChange={(value) => onChangeMemberdetails('dateOfBirth',value)}  />
-              <UserDetails mode={viewMode} label='Date of join' value={memberDetails.dateOfJoin} onChange={(value) => onChangeMemberdetails('dateOfJoin',value)} />
-              <UserDetails mode={viewMode} label='Last payment date' value={memberDetails.lastPaymentDate} onChange={(value) => onChangeMemberdetails('lastPaymentDate',value)} /> */}
           </div>
 
           {

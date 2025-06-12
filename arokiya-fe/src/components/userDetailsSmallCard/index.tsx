@@ -13,11 +13,13 @@ const FieldCard = ({
   value,
   mode,
   onChange,
+  inputType
 }: {
   label: string;
   value: string;
   mode: 'editable' | 'view';
   onChange?: (val: string) => void;
+  inputType?:'string'|'number'
 }) => {
 
   return (
@@ -62,7 +64,8 @@ const FieldCard = ({
           <TextField
   label={label}
   value={value}
-  onChange={(e) => onChange?.(e.target.value)}
+
+  onChange={(e) =>  inputType !== 'number' ?  onChange?.(e.target.value) :  onChange?.((e.target.value.replace(/[^\d]/g,'')).toString())}
   fullWidth
   variant="outlined"
   InputProps={{
@@ -138,15 +141,22 @@ const FieldCard = ({
 };
 
 
+interface UserDetailsProps {
+  mode: 'editable' | 'view',
+  onChange?:(data:string)=>void,
+  label:string,
+  value:string,
+  inputType?:'string'|'number'
+}
 
-
-const UserDetails = ({ mode,label,onChange,value }: { mode: 'editable' | 'view',onChange?:(data:string)=>void,label:string,value:string }) => {
+const UserDetails = ({ mode,label,onChange,value,inputType='string' }: UserDetailsProps) => {
 
   return (
     <Box sx={{ p: 1.5 }}>
       <Grid container spacing={2}>
         {/* {Object.entries(user).map(([key, value]) => ( */}
           <FieldCard
+            inputType={inputType}
             // key={key}
             label={label}
             value={value}
