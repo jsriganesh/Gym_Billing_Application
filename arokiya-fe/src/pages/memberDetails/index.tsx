@@ -62,13 +62,15 @@ interface PaymentDetailsProps {
   plan: any;
   // collectAdvance:string,
   advanceAmount: string
+  paidAmount:string
 }
 
 
 const defaultPaymentDetails: PaymentDetailsProps = {
   plan: {},
   // collectAdvance:'',
-  advanceAmount: ''
+  advanceAmount: '',
+  paidAmount:''
 }
 
 const defaultUserDetails: MemberDetailsProps = {
@@ -241,19 +243,19 @@ const MemberDetails = () => {
 
 
           <div style={{ height: '1px', backgroundColor: '##FFFFFF', opacity: 0.1, marginTop: '1rem', }} />
-          <div style={{ display: 'flex', flexDirection: 'row', width: '100%', marginTop: '1rem', paddingLeft: 120 }}>
+          <div style={{ display: 'flex', flexDirection: 'row', marginTop: '1rem', paddingLeft: 120,}}>
 
-            <div style={{ display: 'flex', flexDirection: 'row', alignItems: "center", marginRight: '7rem' }}>
-              <div className='body-sub-title'>Select plan</div>
-              <AutoCompleteDropDown options={genderList} mode={viewMode} label='Plan' value={paymentDetails.plan} onChange={(value) => onChangePaymentDetails('plan', value)} />
+            <div style={{ display: 'flex', flexDirection: 'row', alignItems: "center" }}>
+              {/* <div className='body-sub-title'>Select plan</div> */}
+              <AutoCompleteDropDown options={genderList} mode={viewMode} label='Select plan' value={paymentDetails.plan} onChange={(value) => onChangePaymentDetails('plan', value)} />
             </div>
-
+          <div style={{width:1,backgroundColor:'#888888',marginLeft:'1rem',marginRight:'2rem'}}/>
             <div style={{ display: 'flex', flexDirection: 'row', alignItems: "center" }}>
               <div className='body-sub-title'>choose yes, if we collect <br />advance amount</div>
               {advanceAmountView()}
               {collectAdvance === 'yes' && <UserDetails inputType='number' mode={viewMode} label='Advance Amount' value={paymentDetails.advanceAmount} onChange={(value) => onChangePaymentDetails('advanceAmount', value)} />}
             
-              <UserDetails mode={viewMode} label='Paid Amount' value={memberDetails.address} onChange={(value) => onChangeMemberdetails('address', value)} />
+              <UserDetails mode={viewMode} label='Paid Amount' value={paymentDetails.paidAmount} onChange={(value) => onChangePaymentDetails('paidAmount', value)} />
 
             </div>
           </div>
