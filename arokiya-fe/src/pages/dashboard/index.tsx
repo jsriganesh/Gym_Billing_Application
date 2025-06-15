@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import BasicCards from '../../components/basicCards'
 import './index.scss'
 import PageLayout from '../../components/pagelayout'
+import { getAllPlanList } from '../../services/commonApiService'
 export default function Dashboard() {
 
     const sampleData = {
@@ -10,6 +11,11 @@ export default function Dashboard() {
         title: 'Member count',
         subCount: ''
     }
+
+    useEffect(()=>{
+        getAllPlanList()
+    },[])
+
     return (
         <PageLayout>
             <div>

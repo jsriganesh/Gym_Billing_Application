@@ -20,6 +20,7 @@ import dayjs, { Dayjs } from 'dayjs';
 import CommonDatePicker from '../../components/datepicker';
 import AutoCompleteDropDown from '../../components/autoCompleteDropDown';
 import { bloodGroupList, genderList } from '../../utils/constant';
+import { useAppSelector } from '../../redux/store';
 
 
 interface TabPanelProps {
@@ -213,6 +214,48 @@ const MemberDetails = () => {
   const [dob, setDOB] = React.useState<Dayjs | null>(dayjs());
   const [doj, setDOJ] = React.useState<Dayjs | null>(dayjs());
   const [lpd, setLPD] = React.useState<Dayjs | null>(dayjs()); // lastPaymentDate
+  const { planList } = useAppSelector((state) => state.commonData);
+
+// console.log('planList ====',planList)
+
+//   const onSubmit= () => {
+
+//     if (planDetails) {
+//         const preparData = {
+//             "memberName": data.name,
+//             "mobileNo": data.mobileNo,
+//             "emailId": data.email,
+//             "dateOfJoin": data.doj,
+//             "dateOfBirth": data.dob,
+//             "lastpaymentDate": new Date(),
+//             "address": data.address,
+//             "profileImage": "",
+//             "planDetails": {
+//                 "planID": planDetails.planDetails?.planID,
+//                 "planName": planDetails.planDetails?.planName,
+//                 "duration": planDetails.planDetails?.planDuration, // days
+//                 "planValue": planDetails.planDetails?.planValue,
+//                 "paidAmount": data.paidAmount,
+//                 "dueAmount": dueAmount
+//             },
+//             "gender": data.gender
+
+//         }
+
+
+//         postRequest(EndPoint.membersList,preparData,successCallback=>{
+//             const list = [...membersList]
+//             list.unshift(successCallback)
+//             dispatch(updateMemberList(list))
+//             Alert.alert('member created ')
+//             navigation.goBack()
+//         },errorCallback=>{})
+
+//         console.log(preparData)
+//     }
+// };
+
+
 
 
   return (

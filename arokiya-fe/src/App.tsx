@@ -4,8 +4,11 @@ import Dashboard from './pages/dashboard';
 import Members from './pages/members';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import MemberDetails from './pages/memberDetails';
+import { Provider } from 'react-redux';
+import { store } from './redux/store';
 function App() {
   return (
+    <Provider store={store}>
     <div className="App">
       <BrowserRouter>
         <Routes>
@@ -16,8 +19,8 @@ function App() {
             
         </Routes>
       </BrowserRouter>
-      {/* <Members/> */}
     </div>
+    </Provider>
   );
 }
 
