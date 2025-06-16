@@ -6,8 +6,9 @@ import GroupAddIcon from '@mui/icons-material/GroupAdd';
 interface CommonButtonProps {
     handleClick:(data:any)=>void,
     label:string
+    icon?:string
 }
-const CommonButton = ({handleClick,label}:CommonButtonProps) => {
+export const CommonButton = ({handleClick,label,icon}:CommonButtonProps) => {
 //   const handleClick = () => {
 //     console.log('Add Members clicked');
 //   };
@@ -16,7 +17,7 @@ const CommonButton = ({handleClick,label}:CommonButtonProps) => {
     <Button
       variant="contained"
       color="primary"
-      startIcon={<GroupAddIcon />}
+      startIcon={icon === 'addMember'?<GroupAddIcon />:''}
       onClick={handleClick}
       sx={{
         height: '48px',
@@ -32,4 +33,22 @@ const CommonButton = ({handleClick,label}:CommonButtonProps) => {
   );
 };
 
-export default CommonButton;
+
+
+// import {  TextField, Box } from '@mui/material';
+
+// const Submint = () => {
+//   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+//     e.preventDefault();
+//     console.log("Form submitted!");
+//   };
+
+//   return (
+//     <Box component="form" onSubmit={handleSubmit}>
+//       <TextField label="Name" fullWidth sx={{ mb: 2 }} />
+//       <Button type="submit" variant="contained" color="primary">
+//         Submit
+//       </Button>
+//     </Box>
+//   );
+// };

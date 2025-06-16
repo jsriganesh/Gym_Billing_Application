@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import BasicCards from '../../components/basicCards'
 import './index.scss'
 import PageLayout from '../../components/pagelayout'
-import { getAllPlanList } from '../../services/commonApiService'
+import { getAllMembers, getAllPlanList } from '../../services/commonApiService'
 export default function Dashboard() {
 
     const sampleData = {
@@ -14,6 +14,7 @@ export default function Dashboard() {
 
     useEffect(()=>{
         getAllPlanList()
+        getAllMembers()
     },[])
 
     return (

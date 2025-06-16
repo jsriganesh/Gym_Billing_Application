@@ -44,6 +44,7 @@ export type MemberDetails={
       gender:string,
       dietPlanDetails?:DietPlanDetails[]
       _id:string
+      bloodGroup?:string
 }
 
 export type PlanDetails={

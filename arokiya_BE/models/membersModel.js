@@ -5,12 +5,20 @@ const categorySchema = mongoose.Schema(
             type:String,
             required:[true,'Please Enter the member name']
         },
+        bloodGroup:{
+            type:String,
+            required:[true,'Please select blood group']
+        },
         mobileNo:{
             type:Number,
             required:[true,'Please Enter mobile no']
         },
         emailId:{
             type:String,
+            required:[false,'']
+        },
+        advanceAmount:{
+            type:Number,
             required:[false,'']
         },
         dateOfJoin:{

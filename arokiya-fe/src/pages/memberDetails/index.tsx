@@ -1,17 +1,12 @@
 import React, { useEffect } from 'react';
 import { IconButton, Typography, Box, FormControl, FormLabel, RadioGroup, FormControlLabel, Radio, TextField, Grid } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate, useNavigation } from 'react-router-dom';
 
 import './members.scss'
 import PageLayout from '../../components/pagelayout';
 import UserDetails from '../../components/userDetailsSmallCard';
 import TabContainer from '../../components/tab';
-// import { DatePicker } from '@material-ui/pickers';
-// import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-// import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-// import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-
 
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -20,7 +15,11 @@ import dayjs, { Dayjs } from 'dayjs';
 import CommonDatePicker from '../../components/datepicker';
 import AutoCompleteDropDown from '../../components/autoCompleteDropDown';
 import { bloodGroupList, genderList } from '../../utils/constant';
-import { useAppSelector } from '../../redux/store';
+import { useAppDispatch, useAppSelector } from '../../redux/store';
+import { postRequest } from '../../services/axiosService';
+import { EndPoint } from '../../services/endPoint';
+import { updateMemberList } from '../../redux/slices/commonSlice';
+import { CommonButton } from '../../components/button';
 
 
 interface TabPanelProps {
@@ -48,13 +47,13 @@ function CustomTabPanel(props: TabPanelProps) {
 interface MemberDetailsProps {
   memberName: string;
   mobileNumber: string;
-  bloodGroup: string;
+  bloodGroup: any;
   emailId: string;
   dateOfBirth: string;
   dateOfJoin: string;
   memberId: string;
   address: string;
-  gender: string;
+  gender: any;
   lastPaymentDate: string;
 }
 
@@ -77,13 +76,13 @@ const defaultPaymentDetails: PaymentDetailsProps = {
 const defaultUserDetails: MemberDetailsProps = {
   memberName: '',
   mobileNumber: '',
-  bloodGroup: '',
+  bloodGroup: {},
   emailId: '',
   dateOfBirth: '',
   dateOfJoin: '',
   memberId: '',
   address: '',
-  gender: '',
+  gender: {},
 
   lastPaymentDate: '',
 }
@@ -91,6 +90,9 @@ const defaultUserDetails: MemberDetailsProps = {
 const MemberDetails = () => {
   const location = useLocation();
   const { isCreateMember } = location.state || {};
+  const dispatch = useAppDispatch();
+  // const navigation = useNavigation();
+  const navigate = useNavigate();
 
   const [collectAdvance, updateCollectAdvance] = React.useState('no');
 
@@ -98,6 +100,13 @@ const MemberDetails = () => {
 
   const [memberDetails, setMemberDetails] = React.useState<MemberDetailsProps>(defaultUserDetails);
   const [selectedTab, upsateSelecetedTab] = React.useState(0);
+
+  const [dob, setDOB] = React.useState<Dayjs | null | string>(dayjs());
+  const [doj, setDOJ] = React.useState<Dayjs | null | string>(dayjs());
+  const [lpd, setLPD] = React.useState<Dayjs | null | string>(dayjs(new Date()).toDate().toISOString()); // lastPaymentDate
+  const { planList ,membersList} = useAppSelector((state) => state.commonData);
+
+
 
   const handleChange = (newValue: number) => {
     console.log('handleChange =', newValue)
@@ -158,7 +167,6 @@ const MemberDetails = () => {
 
   const onChangePaymentDetails = (key: string, value: string) => {
     let updatePaymentDetails = { ...paymentDetails }
-    // updateMemberDetails[key]= value
     updatePaymentDetails = { ...updatePaymentDetails, [key]: value }
     setPaymentDetails(updatePaymentDetails)
   }
@@ -211,51 +219,52 @@ const MemberDetails = () => {
   const handleChangeAdvanceAmount = (event: React.ChangeEvent<HTMLInputElement>) => {
     updateCollectAdvance((event.target as HTMLInputElement).value);
   };
-  const [dob, setDOB] = React.useState<Dayjs | null>(dayjs());
-  const [doj, setDOJ] = React.useState<Dayjs | null>(dayjs());
-  const [lpd, setLPD] = React.useState<Dayjs | null>(dayjs()); // lastPaymentDate
-  const { planList } = useAppSelector((state) => state.commonData);
-
 // console.log('planList ====',planList)
 
-//   const onSubmit= () => {
+  const onSubmit= () => {
 
-//     if (planDetails) {
-//         const preparData = {
-//             "memberName": data.name,
-//             "mobileNo": data.mobileNo,
-//             "emailId": data.email,
-//             "dateOfJoin": data.doj,
-//             "dateOfBirth": data.dob,
-//             "lastpaymentDate": new Date(),
-//             "address": data.address,
-//             "profileImage": "",
-//             "planDetails": {
-//                 "planID": planDetails.planDetails?.planID,
-//                 "planName": planDetails.planDetails?.planName,
-//                 "duration": planDetails.planDetails?.planDuration, // days
-//                 "planValue": planDetails.planDetails?.planValue,
-//                 "paidAmount": data.paidAmount,
-//                 "dueAmount": dueAmount
-//             },
-//             "gender": data.gender
+    // if (planDetails) {
+        const preparData = {
+            "memberName": memberDetails.memberName,
+            "mobileNo": memberDetails.mobileNumber,
+            "emailId": memberDetails.emailId,
+            "dateOfJoin": doj,
+            "dateOfBirth": dob,
+            "lastpaymentDate": lpd,
+            "address": memberDetails.address,
+            "profileImage": "",
+             "advanceAmount": paymentDetails.advanceAmount ?  paymentDetails.advanceAmount :0,
+            "planDetails": {
+                "planID": paymentDetails.plan?.planID,
+                "planName": paymentDetails.plan?.planName,
+                "duration": paymentDetails.plan?.planDuration, // days
+                "planValue": paymentDetails.plan?.planValue,
+                "paidAmount": paymentDetails.paidAmount,
+                "dueAmount": 0
+            },
+            "gender": memberDetails.gender.value,
+            "bloodGroup": memberDetails.bloodGroup.value
 
-//         }
-
-
-//         postRequest(EndPoint.membersList,preparData,successCallback=>{
-//             const list = [...membersList]
-//             list.unshift(successCallback)
-//             dispatch(updateMemberList(list))
-//             Alert.alert('member created ')
-//             navigation.goBack()
-//         },errorCallback=>{})
-
-//         console.log(preparData)
-//     }
-// };
+        }
 
 
+        console.log('preparData =====>',preparData)
+        postRequest(EndPoint.membersList,preparData,successCallback=>{
+            const list = [...membersList]
+            list.unshift(successCallback)
+            dispatch(updateMemberList(list))
+            alert('member created ')
+            // navigation
+            navigate('/members')
+            // navigate('/members')
+        },errorCallback=>{})
+
+        console.log(preparData)
+    // }
+};
+
+
+const newPlanDetails = planList.map((plan)=> {return {...plan,label:plan.planName+' / '+plan.planValue,value:plan.planID}})
 
 
   return (
@@ -280,7 +289,7 @@ const MemberDetails = () => {
               
               <CommonDatePicker selectedDate={dob} setSelectedDate={setDOB} label='Date of birth' />
               <CommonDatePicker selectedDate={doj} setSelectedDate={setDOJ} label='Date of join' />
-              <CommonDatePicker selectedDate={lpd} setSelectedDate={setLPD} label='Last payment date' />
+              {/* <CommonDatePicker selectedDate={lpd} setSelectedDate={setLPD} label='Last payment date' /> */}
             </div>
           </div>
 
@@ -290,7 +299,7 @@ const MemberDetails = () => {
 
             <div style={{ display: 'flex', flexDirection: 'row', alignItems: "center" }}>
               {/* <div className='body-sub-title'>Select plan</div> */}
-              <AutoCompleteDropDown options={genderList} mode={viewMode} label='Select plan' value={paymentDetails.plan} onChange={(value) => onChangePaymentDetails('plan', value)} />
+              <AutoCompleteDropDown options={newPlanDetails} mode={viewMode} label='Select plan' value={paymentDetails.plan} onChange={(value) => onChangePaymentDetails('plan', value)} />
             </div>
           <div style={{width:1,backgroundColor:'#888888',marginLeft:'1rem',marginRight:'2rem'}}/>
             <div style={{ display: 'flex', flexDirection: 'row', alignItems: "center" }}>
@@ -327,6 +336,13 @@ const MemberDetails = () => {
               </CustomTabPanel>
             </>
           }
+
+<div style={{
+  display:'flex',justifyContent:"center",marginTop:'2rem'
+}}>
+  <CommonButton label='Submit' handleClick={()=>{onSubmit()}}/>
+</div>
+
         </div>
 
       </div>

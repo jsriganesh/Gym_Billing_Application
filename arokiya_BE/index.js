@@ -3,12 +3,19 @@ const app = express()
 const mongoos = require('mongoose')
 app.use(express.json()) // Middleware
 const port = 4004
-var admin = require("firebase-admin");
-var serviceAccount = require('./firebase/creds.json');
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-  databaseURL: "https://test-clofas-default-rtdb.firebaseio.com"
-});
+const cors = require('cors');
+
+app.use(cors({
+  origin: 'http://localhost:3000',  // Allow requests from your local frontend
+}));
+
+
+// var admin = require("firebase-admin");
+// var serviceAccount = require('./firebase/creds.json');
+// admin.initializeApp({
+//   credential: admin.credential.cert(serviceAccount),
+//   databaseURL: "https://test-clofas-default-rtdb.firebaseio.com"
+// });
 
 const dbName = 'gym-dg'
 const uri = "mongodb+srv://jsriganesh535:clo_123@clofas.xtsjvzp.mongodb.net/gym-db?retryWrites=true&w=majority";

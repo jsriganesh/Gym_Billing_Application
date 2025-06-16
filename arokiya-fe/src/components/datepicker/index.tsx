@@ -13,8 +13,8 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs, { Dayjs } from 'dayjs';
 
 interface DatePicker{
-    setSelectedDate:(date:Dayjs | null)=>void
-    selectedDate:Dayjs | null
+    setSelectedDate:(date:Dayjs | null | string)=>void
+    selectedDate:Dayjs | null | string
     label?:string
 }
 
@@ -29,8 +29,12 @@ const CommonDatePicker = ({label,selectedDate, setSelectedDate}:DatePicker ) => 
         <DatePicker
           format='DD-MM-YYYY'
           label={label || ''}
-          value={selectedDate}
-          onChange={(newValue) => setSelectedDate(newValue)}
+          value={dayjs(selectedDate)}
+          onChange={(newValue) =>{
+              
+
+            console.log('====',dayjs(newValue).toDate().toISOString())
+            newValue ?  setSelectedDate(dayjs(newValue).toDate().toISOString() ) : setSelectedDate (null)}}
           // renderInput={(params:any) => <TextField {...params} />}
           slotProps={{
             textField: {
@@ -115,44 +119,6 @@ const CommonDatePicker = ({label,selectedDate, setSelectedDate}:DatePicker ) => 
               },
             },
           }}
-
-        // slotProps={{
-        //   textField: {
-        //     variant: 'outlined',
-        //     sx: {
-        //       width: 170,
-
-        //       // 🔸 Input Text
-        // '& .MuiInputBase-input': {
-        //   color: '#B0B0B0', // your desired text color
-        // },
-
-        // // 🔸 Label
-        // '& .MuiInputLabel-root': {
-        //   color: '#B0B0B0',
-        // },
-        // '& .MuiInputLabel-root.Mui-focused': {
-        //   color: '#B0B0B0',
-        // },
-
-        //       // 🔸 Border (Notched Outline)
-        //       '& .MuiOutlinedInput-notchedOutline': {
-        //         borderColor: '#B0B0B0', // your desired border color
-        //       },
-        //       '& .MuiOutlinedInput-root:hover .MuiOutlinedInput-notchedOutline': {
-        //         borderColor: '#D0D0D0',
-        //       },
-        //       '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline': {
-        //         borderColor: '#D0D0D0',
-        //       },
-
-        // // 🔸 Calendar Icon
-        // '& .MuiSvgIcon-root': {
-        //   color: '#B0B0B0',
-        // },
-        //     },
-        //   },
-        // }}
 
         />
       </LocalizationProvider>
