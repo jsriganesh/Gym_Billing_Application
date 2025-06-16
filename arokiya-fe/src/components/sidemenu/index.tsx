@@ -59,6 +59,11 @@ const SideMenu = ({
         </div>
 
         <div className='side-menu__list'>
+          <div ><img className='side-menu__list--icon' alt='Plan' src={require('../../assets/images/sidemenu/members.png')} /></div>
+          <div className='side-menu__list--text' onClick={() => navigate('/feesPay')}>{'Fees Payment'}</div>
+        </div>
+
+        <div className='side-menu__list'>
           <div ><img className='side-menu__list--icon' alt='Report' src={require('../../assets/images/sidemenu/report.png')} /></div>
           <div className='side-menu__list--text'>{'Report'}</div>
         </div>

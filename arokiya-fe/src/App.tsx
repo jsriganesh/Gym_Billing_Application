@@ -7,6 +7,7 @@ import MemberDetails from './pages/memberDetails';
 import { Provider } from 'react-redux';
 import { store } from './redux/store';
 import PlanList from './pages/planList';
+import FeesPay from './pages/feesPay';
 function App() {
   return (
     <Provider store={store}>
@@ -18,6 +19,7 @@ function App() {
             <Route path="/members" element={<Members />} />
             <Route path="/memberDetails" element={<MemberDetails />} />
             <Route path="/planlist" element={<PlanList />} />
+            <Route path="/feesPay" element={<FeesPay />} />
             
         </Routes>
       </BrowserRouter>

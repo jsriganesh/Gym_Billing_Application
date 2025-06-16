@@ -80,9 +80,17 @@ const Datatable=({data}:DatatableProps)=> {
       field: "dueAmount",
       headerName: "Pending Amount",
       width: 150,
-      valueGetter: (params:any) => {
-        return params?.row?.planDetails?.dueAmount ?? 0;
-      },
+      // renderCell: (params) =>
+      //   params.value ?  params.value : "0",
+
+      renderCell: (params: any) => (
+        <>{params?.row?.planDetails?.dueAmount ?? 0}</>
+      ),
+    
+      // valueGetter: (params:any) => {
+      //   console.log('params?.row ==>',params)
+      //   return params?.row?.planDetails?.dueAmount ?? 0;
+      // },
       
     },
     {

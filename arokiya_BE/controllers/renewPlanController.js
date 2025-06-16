@@ -64,7 +64,10 @@ router.post('/', async (req, res) => {
 
 
         // const todayDate = moment(new Date()).format('DD/MM/YYYY')
-        const upCommingnextPaymentDate = convertToISO(moment(new Date(moment(nextPaymentDate))).add(planDetails.planDuration, 'days'))
+
+        // Calculation happened in FE
+        // const upCommingnextPaymentDate = convertToISO(moment(new Date(moment(nextPaymentDate))).add(planDetails.planDuration, 'days'))
+        const upCommingnextPaymentDate = nextPaymentDate
         
         newMemberDetails={
             ...newMemberDetails,

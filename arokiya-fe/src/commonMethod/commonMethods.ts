@@ -14,3 +14,9 @@ export const calculateAgeInYears = (isoDateString: string): number => {   // iso
   
     return age;
   }
+
+
+export  const convertToISO=(dateString:string)=>{
+    const date = new Date(dateString);
+    return date.toISOString();
+}
