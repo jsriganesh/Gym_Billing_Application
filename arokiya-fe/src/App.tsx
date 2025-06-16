@@ -6,6 +6,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import MemberDetails from './pages/memberDetails';
 import { Provider } from 'react-redux';
 import { store } from './redux/store';
+import PlanList from './pages/planList';
 function App() {
   return (
     <Provider store={store}>
@@ -16,6 +17,7 @@ function App() {
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/members" element={<Members />} />
             <Route path="/memberDetails" element={<MemberDetails />} />
+            <Route path="/planlist" element={<PlanList />} />
             
         </Routes>
       </BrowserRouter>

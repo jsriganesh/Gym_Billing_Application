@@ -120,7 +120,7 @@ const AutoCompleteDropDown = ({ onChange, value, label, options }: AutoCompleteD
                 /> */}
 
 <Autocomplete
-  value={value}
+  value={value ? value :null}
   onChange={(event, newValue) => {
     onChange(newValue || null);
   }}

@@ -246,11 +246,11 @@ const Datatable=({data}:DatatableProps)=> {
         getRowId={(row) => row._id}
         initialState={{
           pagination: {
-            paginationModel: { page: 0, pageSize: 5 },
+            paginationModel: { page: 0, pageSize: 10 },
           },
         }}
         // checkboxSelection
-        pageSizeOptions={[5, 10,15, 25]}
+        pageSizeOptions={[10, 10,15, 25]}
       />
     </div>
   );

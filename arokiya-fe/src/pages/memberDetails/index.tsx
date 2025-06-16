@@ -222,8 +222,6 @@ const MemberDetails = () => {
 // console.log('planList ====',planList)
 
   const onSubmit= () => {
-
-    // if (planDetails) {
         const preparData = {
             "memberName": memberDetails.memberName,
             "mobileNo": memberDetails.mobileNumber,
@@ -240,7 +238,7 @@ const MemberDetails = () => {
                 "duration": paymentDetails.plan?.planDuration, // days
                 "planValue": paymentDetails.plan?.planValue,
                 "paidAmount": paymentDetails.paidAmount,
-                "dueAmount": 0
+                "dueAmount": calculateBalanceAmount()
             },
             "gender": memberDetails.gender.value,
             "bloodGroup": memberDetails.bloodGroup.value
@@ -267,6 +265,16 @@ const MemberDetails = () => {
 const newPlanDetails = planList.map((plan)=> {return {...plan,label:plan.planName+' / '+plan.planValue,value:plan.planID}})
 
 
+const calculateBalanceAmount =()=>{
+  console.log(paymentDetails)
+  const planAmount = parseInt(paymentDetails.plan.planValue)
+  const advance = paymentDetails.advanceAmount ? parseInt(paymentDetails.advanceAmount) :0
+  const paidAmount = parseInt(paymentDetails.paidAmount)
+
+  const due = (planAmount+advance) - paidAmount
+  return due
+}
+
   return (
     <PageLayout>
       <div className="category-container">
@@ -289,7 +297,7 @@ const newPlanDetails = planList.map((plan)=> {return {...plan,label:plan.planNam
               
               <CommonDatePicker selectedDate={dob} setSelectedDate={setDOB} label='Date of birth' />
               <CommonDatePicker selectedDate={doj} setSelectedDate={setDOJ} label='Date of join' />
-              {/* <CommonDatePicker selectedDate={lpd} setSelectedDate={setLPD} label='Last payment date' /> */}
+
             </div>
           </div>
 
@@ -298,7 +306,6 @@ const newPlanDetails = planList.map((plan)=> {return {...plan,label:plan.planNam
           <div style={{ display: 'flex', flexDirection: 'row', marginTop: '1rem', paddingLeft: 120,}}>
 
             <div style={{ display: 'flex', flexDirection: 'row', alignItems: "center" }}>
-              {/* <div className='body-sub-title'>Select plan</div> */}
               <AutoCompleteDropDown options={newPlanDetails} mode={viewMode} label='Select plan' value={paymentDetails.plan} onChange={(value) => onChangePaymentDetails('plan', value)} />
             </div>
           <div style={{width:1,backgroundColor:'#888888',marginLeft:'1rem',marginRight:'2rem'}}/>
@@ -310,7 +317,15 @@ const newPlanDetails = planList.map((plan)=> {return {...plan,label:plan.planNam
               <UserDetails mode={viewMode} label='Paid Amount' value={paymentDetails.paidAmount} onChange={(value) => onChangePaymentDetails('paidAmount', value)} />
 
             </div>
+
+
           </div>
+          {
+            paymentDetails.plan && paymentDetails.paidAmount &&
+            <div style={{backgroundColor:'#8d8d8d',padding:'1rem',borderRadius:10,margin:'2rem 6rem'}}>
+          <div className='body-sub-title'>Balance amount is {calculateBalanceAmount()}</div>
+          </div>
+}
 
           {
             !isCreateMember &&

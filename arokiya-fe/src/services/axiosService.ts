@@ -53,3 +53,17 @@ export const putRequest=async (url:string,data:any,successCallback:(data:any)=>v
 
       }
 }
+
+export const deleteRequest=async (url:string,successCallback:(data:any)=>void,errorCallback:(data:any)=>void)=>{
+  console.log(`${baseUrl}${url}`)
+  try {
+      const response = await axios.delete(`${baseUrl}${url}`);
+      console.log('***>',response.data);
+      if(!response)errorCallback(response) 
+      successCallback(response.data)
+    } catch (error) {
+      errorCallback(error)
+      console.log('***>> ',error);
+
+    }
+}

@@ -60,12 +60,15 @@ router.put('/:_id', async (req, res) => {
 
 router.delete('/:_id', async (req, res) => {
     try {
+        console.log('--->',req.params._id)
         const { _id } = req.params
-        const Plan = await Plan.findByIdAndDelete(_id)
-        if (!Plan) {
+        const deletedPlan = await Plan.findByIdAndDelete(_id)
+        console.log('Plan --->',deletedPlan)
+
+        if (!deletedPlan) {
             return res.status(404).json({ message: `cant find the id ${_id}` })
         }
-        res.status(200).json(Plan)
+        res.status(200).json(deletedPlan)
 
     } catch (error) {
         console.log('ERROR:', error)
