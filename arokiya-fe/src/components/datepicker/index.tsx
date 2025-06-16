@@ -27,6 +27,7 @@ const CommonDatePicker = ({label,selectedDate, setSelectedDate}:DatePicker ) => 
 
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <DatePicker
+          
           format='DD-MM-YYYY'
           label={label || ''}
           value={dayjs(selectedDate)}

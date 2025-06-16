@@ -16,10 +16,11 @@ import CommonDatePicker from '../../components/datepicker';
 import AutoCompleteDropDown from '../../components/autoCompleteDropDown';
 import { bloodGroupList, genderList } from '../../utils/constant';
 import { useAppDispatch, useAppSelector } from '../../redux/store';
-import { postRequest } from '../../services/axiosService';
+import { postRequest, putRequest } from '../../services/axiosService';
 import { EndPoint } from '../../services/endPoint';
 import { updateMemberList } from '../../redux/slices/commonSlice';
 import { CommonButton } from '../../components/button';
+import moment from 'moment';
 
 
 interface TabPanelProps {
@@ -89,7 +90,9 @@ const defaultUserDetails: MemberDetailsProps = {
 
 const MemberDetails = () => {
   const location = useLocation();
-  const { isCreateMember } = location.state || {};
+  const { isCreateMember,isEditMember,editMemberDetails } = location.state || {};
+
+  console.log('editMemberDetails =====>',editMemberDetails)
   const dispatch = useAppDispatch();
   // const navigation = useNavigation();
   const navigate = useNavigate();
@@ -108,12 +111,35 @@ const MemberDetails = () => {
 
 
 
+  useEffect(()=>{
+    if(editMemberDetails){
+      setMemberDetails({
+        memberName: editMemberDetails.memberName,
+        mobileNumber: editMemberDetails.mobileNo,
+        bloodGroup: {value:editMemberDetails.bloodGroup,label:editMemberDetails.bloodGroup},
+        emailId: editMemberDetails.emailId,
+        dateOfBirth: editMemberDetails.dateOfBirth,
+        dateOfJoin: editMemberDetails.dateOfJoin,
+        memberId: editMemberDetails.memberID,
+        address: editMemberDetails.address,
+        gender: {value:editMemberDetails.gender,label:editMemberDetails.gender},
+
+        lastPaymentDate: editMemberDetails.lastpaymentDate,
+      })
+      setDOB((editMemberDetails.dateOfBirth))
+      setDOJ(editMemberDetails.dateOfJoin)
+      setLPD(editMemberDetails.lastpaymentDate)
+    }
+
+  
+  },[])
+
   const handleChange = (newValue: number) => {
     console.log('handleChange =', newValue)
     upsateSelecetedTab(newValue);
   };
 
-  const viewMode = isCreateMember ? 'editable' : 'view'
+  const viewMode = (isCreateMember || isEditMember) ? 'editable' : 'view'
   // const viewMode = 'editable'
 
   const renderProfileImage = () => {
@@ -219,10 +245,37 @@ const MemberDetails = () => {
   const handleChangeAdvanceAmount = (event: React.ChangeEvent<HTMLInputElement>) => {
     updateCollectAdvance((event.target as HTMLInputElement).value);
   };
-// console.log('planList ====',planList)
+console.log('planList ====',planList)
+
+    // const updateMemberDietPlan = () => {
+    //     if (memberDetails) {
+
+    //         const updateData = { ...memberDetails }
+
+    //         putRequest(
+    //             EndPoint.membersList + editMemberDetails._id,
+    //             updateData,
+    //             success => {
+    //                 // setDietPlans([...selectedPlan])
+    //                 // Alert.alert('updated success fully')
+    //                 // const list = [...membersList]
+    //                 // const findIndex = membersList.findIndex(member => success.memberID === member.memberID)
+    //                 // if (findIndex >= 0) {
+    //                 //     list.splice(findIndex, 1, success)
+    //                 //     memberDetails = success
+    //                 //     dispatch(updateMemberList(list))
+    //                 // }
+    //             },
+    //             error => {
+    //                 console.log('error -->', error);
+    //             },
+    //         );
+    //     }
+    // }
+
 
   const onSubmit= () => {
-        const preparData = {
+        let preparData = {
             "memberName": memberDetails.memberName,
             "mobileNo": memberDetails.mobileNumber,
             "emailId": memberDetails.emailId,
@@ -241,21 +294,48 @@ const MemberDetails = () => {
                 "dueAmount": calculateBalanceAmount()
             },
             "gender": memberDetails.gender.value,
-            "bloodGroup": memberDetails.bloodGroup.value
-
+            "bloodGroup": memberDetails.bloodGroup.value,
         }
 
 
-        console.log('preparData =====>',preparData)
-        postRequest(EndPoint.membersList,preparData,successCallback=>{
-            const list = [...membersList]
-            list.unshift(successCallback)
-            dispatch(updateMemberList(list))
-            alert('member created ')
-            // navigation
-            navigate('/members')
-            // navigate('/members')
-        },errorCallback=>{})
+        if(editMemberDetails && editMemberDetails?._id){
+         let newPreparData = {...preparData,'_id':editMemberDetails._id,'advanceAmount':editMemberDetails.advanceAmount,'planDetails':editMemberDetails.planDetails}
+
+         console.log('success ====>',newPreparData)
+
+          putRequest(
+            EndPoint.membersList + editMemberDetails._id,
+            newPreparData,
+            success => {
+              console.log('success ====>',success)
+                // setDietPlans([...selectedPlan])
+                const list = [...membersList]
+                const findIndex = membersList.findIndex(member => success.memberID === member.memberID)
+                if (findIndex >= 0) {
+                    list.splice(findIndex, 1, success)
+                    // memberDetails = success
+                    dispatch(updateMemberList(list))
+                }
+                alert('updated success fully')
+            },
+            error => {
+                console.log('error -->', error);
+            },
+        );
+        }else{
+          console.log('preparData =====>',preparData)
+          postRequest(EndPoint.membersList,preparData,successCallback=>{
+              const list = [...membersList]
+              list.unshift(successCallback)
+              dispatch(updateMemberList(list))
+              alert('member created ')
+              // navigation
+              navigate('/members')
+              // navigate('/members')
+          },errorCallback=>{})
+        }
+
+     
 
         console.log(preparData)
     // }
@@ -296,14 +376,22 @@ const calculateBalanceAmount =()=>{
               <AutoCompleteDropDown options={genderList} mode={viewMode} label='Gender' value={memberDetails.gender} onChange={(value) => onChangeMemberdetails('gender', value)} />
               
               <CommonDatePicker selectedDate={dob} setSelectedDate={setDOB} label='Date of birth' />
-              <CommonDatePicker selectedDate={doj} setSelectedDate={setDOJ} label='Date of join' />
+              {!isEditMember ? <CommonDatePicker selectedDate={doj} setSelectedDate={setDOJ} label='Date of join' />:
+                <UserDetails mode={viewMode} label='Date of join' value={moment(memberDetails.dateOfJoin).format('DD-MM-YYYY')} onChange={()=>{}} />
+              }
+              {/* <CommonDatePicker selectedDate={memberDetails.lastPaymentDate} setSelectedDate={()=>{}} label='last payment date' /> */}
+              {
+                isEditMember && <UserDetails mode={viewMode} label='last payment date' value={moment(memberDetails.lastPaymentDate).format('DD-MM-YYYY')} onChange={()=>{}} />
+
+              }
 
             </div>
           </div>
 
 
           <div style={{ height: '1px', backgroundColor: '##FFFFFF', opacity: 0.1, marginTop: '1rem', }} />
-          <div style={{ display: 'flex', flexDirection: 'row', marginTop: '1rem', paddingLeft: 120,}}>
+          {!isEditMember &&
+            <div style={{ display: 'flex', flexDirection: 'row', marginTop: '1rem', paddingLeft: 120,}}>
 
             <div style={{ display: 'flex', flexDirection: 'row', alignItems: "center" }}>
               <AutoCompleteDropDown options={newPlanDetails} mode={viewMode} label='Select plan' value={paymentDetails.plan} onChange={(value) => onChangePaymentDetails('plan', value)} />
@@ -317,17 +405,22 @@ const calculateBalanceAmount =()=>{
               <UserDetails mode={viewMode} label='Paid Amount' value={paymentDetails.paidAmount} onChange={(value) => onChangePaymentDetails('paidAmount', value)} />
 
             </div>
-
-
-          </div>
+          </div>}
           {
-            paymentDetails.plan && paymentDetails.paidAmount &&
+            paymentDetails.plan && paymentDetails.paidAmount && !isEditMember &&
             <div style={{backgroundColor:'#8d8d8d',padding:'1rem',borderRadius:10,margin:'2rem 6rem'}}>
           <div className='body-sub-title'>Balance amount is {calculateBalanceAmount()}</div>
           </div>
 }
 
-          {
+
+
+<div style={{
+  display:'flex',justifyContent:"center",marginTop:'2rem'
+}}>
+  <CommonButton label='Submit' handleClick={()=>{onSubmit()}}/>
+</div>
+{
             !isCreateMember &&
             <>
               <TabContainer handleChange={handleChange} selectedTab={selectedTab} tabList={[
@@ -351,13 +444,6 @@ const calculateBalanceAmount =()=>{
               </CustomTabPanel>
             </>
           }
-
-<div style={{
-  display:'flex',justifyContent:"center",marginTop:'2rem'
-}}>
-  <CommonButton label='Submit' handleClick={()=>{onSubmit()}}/>
-</div>
-
         </div>
 
       </div>
