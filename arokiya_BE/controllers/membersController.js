@@ -47,7 +47,7 @@ router.post('/', async (req, res) => {
             paidDateStr:moment(dateOfJoin).format('DD/MM/YYYY'),
             paidAmount:planDetails.paidAmount,
             planID:planDetails.planID,
-            dueAmount:planDetails.planValue - planDetails.paidAmount,
+            dueAmount:planDetails.planValue - (planDetails.paidAmount - memberDetails.advanceAmount),
             paidMethod:'COD'
         }
 
