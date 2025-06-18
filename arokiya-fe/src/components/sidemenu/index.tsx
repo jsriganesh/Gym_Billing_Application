@@ -54,12 +54,12 @@ const SideMenu = ({
         </div>
 
         <div className='side-menu__list'>
-          <div ><img className='side-menu__list--icon' alt='Plan' src={require('../../assets/images/sidemenu/members.png')} /></div>
+          <div ><img className='side-menu__list--icon' alt='Plan' src={require('../../assets/images/sidemenu/plan.png')} /></div>
           <div className='side-menu__list--text' onClick={() => navigate('/planlist')}>{'Plan List'}</div>
         </div>
 
         <div className='side-menu__list'>
-          <div ><img className='side-menu__list--icon' alt='Plan' src={require('../../assets/images/sidemenu/members.png')} /></div>
+          <div ><img className='side-menu__list--icon' alt='Plan' src={require('../../assets/images/sidemenu/fees.png')} /></div>
           <div className='side-menu__list--text' onClick={() => navigate('/feesPay')}>{'Fees Payment'}</div>
         </div>
 
