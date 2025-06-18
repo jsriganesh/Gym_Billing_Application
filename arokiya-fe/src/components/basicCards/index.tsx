@@ -5,7 +5,7 @@ import '../basicCards/index.scss'
 interface BasicCardsProps {
   cardDetails:{
     image: string;
-    value: string;
+    value: string | number;
     title: string;
     subCount: string;
 }
@@ -14,10 +14,15 @@ interface BasicCardsProps {
 const BasicCards =({cardDetails}:BasicCardsProps)=>{
   return (
     <div className='basic-details-card'>
-        <div style={{fontSize:'0.8rem',color:'#FFFFFF'}}>{cardDetails.title}</div>
-        <div style={{display:'flex',flexDirection:'row',alignItems:'center',marginTop:'1.5rem',marginLeft:'1rem'}}>
-            <img alt='member' src={require('../../assets/images/dashboard/membership.png')} style={{height:'2rem',width:'2rem'}}/>
-            <div style={{fontSize:'1.2rem',color:'#FFFFFF',marginLeft:'0.5rem'}}>{cardDetails.value}</div>
+        <div style={{display:'flex',flexDirection:'row',justifyContent:'space-between',alignItems:'center'}}>
+          <div style={{fontSize:'1rem',color:'#FFFFFF',fontWeight:'bold'}}>{cardDetails.title}</div>
+          <img alt='member' src={require( cardDetails.image==='pending' ? '../../assets/images/dashboard/pending.png' :
+            cardDetails.image==='salse' ? '../../assets/images/dashboard/salse.png' : 
+            cardDetails.image==='newJoin' ? '../../assets/images/dashboard/newJoin.png' : 
+            '../../assets/images/dashboard/membership.png')} style={{height:'3rem',width:'3rem'}}/>
+        </div>
+        <div style={{display:'flex',flexDirection:'row',alignItems:'center'}}>
+            <div style={{fontSize:'1.5rem',color:'#FFFFFF',}}>{cardDetails.value}</div>
         </div>
     </div>
   )

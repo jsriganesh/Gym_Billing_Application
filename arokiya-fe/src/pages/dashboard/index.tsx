@@ -1,32 +1,58 @@
-import React, { useEffect } from 'react'
+import React, { useEffect,useState } from 'react'
 import BasicCards from '../../components/basicCards'
 import './index.scss'
 import PageLayout from '../../components/pagelayout'
 import { getAllMembers, getAllPlanList } from '../../services/commonApiService'
+import { useAppSelector } from '../../redux/store'
+import { getFeesPendingMembers, getNewJoinee } from '../../commonMethod/commonMethods'
 export default function Dashboard() {
+  const { planList, membersList } = useAppSelector((state) => state.commonData);
 
-    const sampleData = {
-        image: 'member',
-        value: '200',
-        title: 'Member count',
-        subCount: ''
-    }
 
-    useEffect(()=>{
+    // const [cards,setCardDetails] = useState([])
+    const cards = [
+        {
+            image: 'member',
+            value: membersList.length,
+            title: 'Member count',
+            subCount: ''
+        },
+        {
+            image: 'newJoin',
+            value: getNewJoinee(membersList,true) as number,
+            title: 'New member count',
+            subCount: ''
+        },
+        {
+            image: 'pending',
+            value: getFeesPendingMembers(membersList,true) as number,
+            title: 'Fees pending',
+            subCount: ''
+        },
+        {
+            image: 'salse',
+            value: '200',
+            title: 'Salse Report',
+            subCount: ''
+        }
+    ]
+
+
+    useEffect(() => {
         getAllPlanList()
         getAllMembers()
-    },[])
+    }, [])
 
     return (
         <PageLayout>
             <div>
-                <div className='body-sub-title'>Totay's Report</div>
+                {/* <div className='body-sub-title'>Totay's Report</div> */}
                 <div className='dashboard-cardsRow'>
-                    <BasicCards cardDetails={sampleData} />
-                    <BasicCards cardDetails={sampleData} />
-                    <BasicCards cardDetails={sampleData} />
-                    <BasicCards cardDetails={sampleData} />
-                    <BasicCards cardDetails={sampleData} />
+                    {
+                        cards.map((data) => <BasicCards cardDetails={data} />)
+                    }
+
+
 
                 </div>
             </div>
