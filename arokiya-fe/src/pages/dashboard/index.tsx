@@ -32,7 +32,13 @@ export default function Dashboard() {
         {
             image: 'salse',
             value: '200',
-            title: 'Salse Report',
+            title: 'Todays Salse',
+            subCount: ''
+        },
+        {
+            image: 'salse',
+            value: '200',
+            title: 'This Month Salse',
             subCount: ''
         }
     ]
