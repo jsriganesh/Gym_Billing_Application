@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { IconButton, Typography, Box, FormControl, FormLabel, RadioGroup, FormControlLabel, Radio, TextField, Grid } from '@mui/material';
+import { IconButton, Typography, Box, FormControl, FormLabel, RadioGroup, FormControlLabel, Radio, TextField, Grid, Modal } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import { useLocation, useNavigate, useNavigation } from 'react-router-dom';
 
@@ -23,6 +23,7 @@ import { CommonButton } from '../../components/button';
 import moment from 'moment';
 import PaymentHistoryCard from '../../components/paymentHistoryCard';
 import { PaymentHistoryDetails } from '../../interface/common';
+import WebcamCapture from '../../components/webcamCapture';
 
 
 interface TabPanelProps {
@@ -91,6 +92,19 @@ const defaultUserDetails: MemberDetailsProps = {
   lastPaymentDate: '',
 }
 
+const modalstyle = {
+  position: 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 400,
+  bgcolor: 'background.paper',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 4,
+};
+
+
 const MemberDetails = () => {
   const location = useLocation();
   const { isCreateMember, isEditMember, editMemberDetails } = location.state || {};
@@ -113,6 +127,8 @@ const MemberDetails = () => {
   const [paymentHistory, setPaymentHistory] = React.useState<PaymentHistoryDetails[]>([]); // lastPaymentDate
   const { planList, membersList } = useAppSelector((state) => state.commonData);
 
+  const [profileImage, setProfileImage] = React.useState('');
+  const [showImageUploadModal, setShowImageUploadModal] = React.useState(false);
 
 
   useEffect(() => {
@@ -163,9 +179,15 @@ const MemberDetails = () => {
           overflow: 'hidden',
         }}
       >
-        <Typography color="text.secondary" fontSize={14}>
+        <div onClick={()=>setShowImageUploadModal(true)}>
+        {
+          profileImage ? 
+          <img src={profileImage} alt="Base64 Image" style={{height:120,width:120}} />
+
+          :
+          <Typography color="text.secondary" fontSize={14}>
           No Image
-        </Typography>
+        </Typography>}
 
         <IconButton
           sx={{
@@ -184,6 +206,7 @@ const MemberDetails = () => {
         >
           <EditIcon fontSize="small" />
         </IconButton>
+        </div>
       </Box>
     )
   }
@@ -484,6 +507,25 @@ const MemberDetails = () => {
             </>
           }
         </div>
+
+
+       {showImageUploadModal && <Modal
+          keepMounted
+          open={showImageUploadModal}
+          onClose={()=>{}}
+          aria-labelledby="keep-mounted-modal-title"
+          aria-describedby="keep-mounted-modal-description"
+        >
+          <Box sx={modalstyle}>
+          <WebcamCapture getProfileImage={(image:string)=>{setShowImageUploadModal(false); setProfileImage(image)}}/>
+            {/* <Typography id="keep-mounted-modal-title" variant="h6" component="h2">
+              Text in a modal
+            </Typography>
+            <Typography id="keep-mounted-modal-description" sx={{ mt: 2 }}>
+              Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+            </Typography> */}
+          </Box>
+        </Modal>}
 
       </div>
     </PageLayout>

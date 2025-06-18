@@ -20,6 +20,7 @@ import { MemberDetails } from '../../interface/common';
 import { getAllMembers, getAllPlanList } from '../../services/commonApiService';
 import TabContainer from '../../components/tab';
 import { Box } from '@mui/material';
+import WebcamCapture from '../../components/webcamCapture';
 // import PageLayout from '../../components/pageLayout';
 // import CategoryAddAndEditModal from '../dashboard/createAndEditcategoryModal';
 
