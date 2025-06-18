@@ -60,6 +60,7 @@ interface MemberDetailsProps {
   gender: any;
   lastPaymentDate: string;
   pendingDueAmount?: string
+  profileImage:string
 }
 
 
@@ -88,6 +89,7 @@ const defaultUserDetails: MemberDetailsProps = {
   memberId: '',
   address: '',
   gender: {},
+  profileImage:'',
 
   lastPaymentDate: '',
 }
@@ -144,13 +146,14 @@ const MemberDetails = () => {
         address: editMemberDetails.address,
         gender: { value: editMemberDetails.gender, label: editMemberDetails.gender },
         pendingDueAmount: editMemberDetails.planDetails.dueAmount,
-
+        profileImage:editMemberDetails.profileImage,
         lastPaymentDate: editMemberDetails.lastpaymentDate,
       })
       setDOB((editMemberDetails.dateOfBirth))
       setDOJ(editMemberDetails.dateOfJoin)
       setLPD(editMemberDetails.lastpaymentDate)
       getPaymentHistory(editMemberDetails.memberID)
+      setProfileImage(editMemberDetails.profileImage)
     }
 
 
@@ -312,7 +315,7 @@ const MemberDetails = () => {
       "dateOfBirth": dob,
       "lastpaymentDate": lpd,
       "address": memberDetails.address,
-      "profileImage": "",
+      "profileImage": profileImage? profileImage:'',
       "advanceAmount": paymentDetails.advanceAmount ? paymentDetails.advanceAmount : 0,
       "planDetails": {
         "planID": paymentDetails.plan?.planID,

@@ -153,7 +153,13 @@ const FeesPay = () => {
         return (
             <div style={{ backgroundColor: 'grey', padding: '1rem', borderRadius: 10 }}>
                 <div style={{ display: 'flex', flexDirection: 'row' }}>
-                    <div style={{ height: 70, width: 70, borderRadius: 50, backgroundColor: 'white' }}></div>
+                    {
+                        selectedMember?.profileImage ? 
+                        <img src={selectedMember.profileImage} alt="Base64 Image" style={{height:70,width:70,borderRadius: 50,}} />
+
+                        :
+                        <div style={{ height: 70, width: 70, borderRadius: 50, backgroundColor: 'white',fontSize:'0.5rem',justifyContent:"center",alignItems:'center',display:'flex' }}>{'No Image'}</div>
+                    }
                     <div style={{ color: 'white', marginLeft: '1rem', width: '28rem' }}>
                         <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
                             <div style={{ marginBottom: '0.9rem', fontWeight: 'bolder' }}>{`Name:${selectedMember?.memberName}`}</div>
