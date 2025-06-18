@@ -20,3 +20,13 @@ export  const convertToISO=(dateString:string)=>{
     const date = new Date(dateString);
     return date.toISOString();
 }
+
+  export const isFutureDate=(dateString:string)=> { //"2025-05-31T14:38:48.827Z"
+    const inputDate = new Date(dateString);
+    const today = new Date();
+  
+    // Set today's time to 00:00:00 for a pure date comparison
+    today.setHours(0, 0, 0, 0);
+  
+    return inputDate > today;
+  }

@@ -7,7 +7,7 @@ import { MemberDetails } from "../../interface/common";
 
 
 import dayjs from 'dayjs';
-import { calculateAgeInYears } from "../../commonMethod/commonMethods";
+import { calculateAgeInYears, isFutureDate } from "../../commonMethod/commonMethods";
 import { useNavigate } from "react-router-dom";
 
 
@@ -18,6 +18,8 @@ interface DatatableProps {
 
 const Datatable=({data}:DatatableProps)=> {
   const navigate = useNavigate();
+
+
 
   const columns: GridColDef[] = [
     { field: "memberID", headerName: "ID", width: 100 },
@@ -73,8 +75,11 @@ const Datatable=({data}:DatatableProps)=> {
       field: "nextPaymentDate",
       headerName: "Next Payment Date",
       width: 180,
-      renderCell: (params) =>
-        params.value ? dayjs(params.value).format("DD/MM/YYYY") : "-",
+      renderCell: (params) =>{
+        return <div style={!isFutureDate(params.value) ? {color:'red'}:{}}>
+        {params.value ? dayjs(params.value).format("DD/MM/YYYY") : "-"}
+        </div>
+      }
     },
     {
       field: "dueAmount",

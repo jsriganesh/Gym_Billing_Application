@@ -57,7 +57,7 @@ router.post('/', async (req, res) => {
             duration: planDetails.planDuration,
             planID: planDetails.planID,
             dueAmount: dueAmount,
-            paidAmount: paidAmount
+            paidAmount: paidAmount,
         }
 
         let newMemberDetails = JSON.parse(JSON.stringify(memberDetails))

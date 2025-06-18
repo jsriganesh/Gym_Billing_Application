@@ -6,6 +6,7 @@ import PageLayout from '../../components/pagelayout';
 import { CommonButton } from '../../components/button';
 import { MemberDetails, PackageListDetailsDetailsProps } from '../../interface/common';
 import { getAllMembers, getAllPlanList } from '../../services/commonApiService';
+import Textarea from '@mui/joy/Textarea';
 
 
 import { DataGrid, GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
@@ -24,7 +25,7 @@ import moment from 'moment';
 import UserDetails from '../../components/userDetailsSmallCard';
 import CommonDatePicker from '../../components/datepicker';
 import dayjs, { Dayjs } from 'dayjs';
-import { convertToISO } from '../../commonMethod/commonMethods';
+import { convertToISO, isFutureDate } from '../../commonMethod/commonMethods';
 import { FormControl, FormControlLabel, Radio, RadioGroup } from '@mui/material';
 
 const FeesPay = () => {
@@ -42,7 +43,8 @@ const FeesPay = () => {
     const [selectedMember, setSelectedMember] = React.useState<MemberDetails | null>(null);
     const [selectedPlan, setSelectedPlan] = React.useState<PackageListDetailsDetailsProps | null>(null);
     const [paidAmount, setPaidAmount] = React.useState<string>('0');
-
+    const [comments, setcomments] = React.useState<string>('');
+    
     const [totalPayableAmount, setTotalPayableAmount] = React.useState<string>('0');
 
     const [paymentDate, setPaymentDate] = React.useState<Dayjs | null | string>(dayjs());
@@ -128,7 +130,7 @@ const FeesPay = () => {
         return (
             <div style={{ flexDirection: 'row', display: 'flex', alignItems: 'center  ' }}>
                 <div>
-                    <div style={{ color: '#ffffff', fontSize: '1.2rem' }} className='lable-style'>Enter Paid Amount</div>
+                    <div style={{ color: '#ffffff', fontSize: '1.2rem' }} className='lable-style'>pending  Amount</div>
                 </div>
                 <div>
                     <UserDetails mode={'editable'} label='Amount' value={paidAmount.toString()} onChange={(value) => setPaidAmount(value)} />
@@ -179,7 +181,7 @@ const FeesPay = () => {
                     </div>
                     <div style={{ marginBottom: '0.9rem', fontWeight: 'bolder' }}>
                         <div>{'Next Payment Date'}</div>
-                        <div>{selectedMember?.nextPaymentDate ? moment(selectedMember?.nextPaymentDate).format('DD-MM-YYYY') : '-'}</div>
+                        <div style={!isFutureDate(selectedMember?.nextPaymentDate as string) ? {color:'red'}:{}}>{selectedMember?.nextPaymentDate ? moment(selectedMember?.nextPaymentDate).format('DD-MM-YYYY') : '-'}</div>
                     </div>
                 </div>
 
@@ -197,7 +199,8 @@ const FeesPay = () => {
                 "planID":selectedMember?.planDetails.planID,
                 "dueAmount":calculateBalanceDueAmount(),
                 "paidMethod":'COH',
-                "nextPaymentDate":selectedMember?.nextPaymentDate
+                "nextPaymentDate":selectedMember?.nextPaymentDate,
+                "comments":comments
             }
            
 
@@ -223,7 +226,8 @@ const FeesPay = () => {
                 "planID":selectedPlan.planID,
                 "dueAmount":calculateBalanceDueAmount(),
                 "paidMethod":'COH',
-                "nextPaymentDate":nextPaymentDate
+                "nextPaymentDate":nextPaymentDate,
+                "comments":comments
             }
            
 
@@ -243,7 +247,7 @@ const FeesPay = () => {
         return (
             <div style={{ flexDirection: 'row', display: 'flex', alignItems: 'center',marginTop: '2rem'  }}>
                 <div>
-                    <div style={{ color: '#ffffff', fontSize: '1.2rem' }} className='lable-style'>Enter Paid Amount</div>
+                    <div style={{ color: '#ffffff', fontSize: '1.2rem' }} className='lable-style'>Pending Amount</div>
                 </div>
                 {checkIsPaidDueAmountView()}
             </div>
@@ -326,6 +330,9 @@ const FeesPay = () => {
 
                     {selectedMember && selectedPlan && renderPaidAmount()}
                     {selectedMember && collectDueAmount ==='yes' && renderPaidAmount(true)}
+
+                    <div className='body-sub-title' style={{marginTop:'2rem'}}>If any comments please enter {selectedMember?.planDetails.dueAmount}</div>
+                    <Textarea name="Solid" placeholder="Enter any comments" variant="solid" sx={{width:400,height:100}}  onChange={(val)=>{setcomments(val.target.value)}}/>
 
                     {selectedMember && (selectedPlan || collectDueAmount ==='yes') && <div style={{  display:'flex',justifyContent:"center",marginTop:'2rem' }}>
                   <CommonButton label='Submit' handleClick={()=>{collectDueAmount  === 'yes'? onSubmitDueAmount() :onSubmit()}}/>

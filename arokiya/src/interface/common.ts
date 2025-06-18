@@ -83,6 +83,7 @@ export type PaymentHistoryDetails = {
   dueAmount: number,
   paidMethod: string,
   paymentID: number,
+  comments?:string
 }
 
 

@@ -166,4 +166,24 @@ router.get('/:_id', async (req, res) => {
 })
 
 
+router.get('/by-member-id/:id', async (req, res) => {
+    // localhost:4004/paymentHistory/by-member-id/1750171184936
+    try {
+        const memberID = req.params.id;
+      console.log(memberID)
+      const result = await PaymentHistory.find({ memberID: memberID }).sort({ paidDate: -1 });;
+      console.log(result)
+
+    //   if (!result) {
+    //     const results = await MemberPayment.find({ memberID });
+    //     return res.status(404).json({ message: 'Record not found' });
+    //   }
+      res.json(result);
+    } catch (error) {
+      res.status(500).json({ error: 'Server error', details: error.message });
+    }
+  });
+  
+
+
 module.exports = router;

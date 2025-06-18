@@ -37,6 +37,10 @@ const paymentHistorySchema = mongoose.Schema(
         paidDateStr:{
             type:String,
             required:[true,'Please Enter the  paymentID']
+        },
+        comments:{
+            type:String,
+            required:[false,'']
         }
         
         
