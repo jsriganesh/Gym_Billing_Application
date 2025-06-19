@@ -63,3 +63,36 @@ const upcomingPayments = membersList.filter(member => {
   return  getOnlyCount ? upcomingPayments.length :upcomingPayments
 }
 
+export const getTodayDateRange=():{ fromDate: string; toDate: string }=>  {
+  const now = new Date();
+
+  // Set fromDate to today's midnight UTC
+  const fromDate = new Date(Date.UTC(
+    now.getUTCFullYear(),
+    now.getUTCMonth(),
+    now.getUTCDate(),
+    0, 0, 0
+  ));
+
+  // Set toDate to today's 23:59:59 UTC
+  const toDate = new Date(Date.UTC(
+    now.getUTCFullYear(),
+    now.getUTCMonth(),
+    now.getUTCDate(),
+    23, 59, 59
+  ));
+
+  return {
+    fromDate: fromDate.toISOString(), // e.g., '2025-06-18T00:00:00.000Z'
+    toDate: toDate.toISOString(),     // e.g., '2025-06-18T23:59:59.000Z'
+  };
+}
+
+
+export const converNumberToRupee=(amount:string|number)=>{
+  return parseInt(amount.toString()).toLocaleString('en-IN', {
+    style: 'currency',
+    currency: 'INR',
+    minimumFractionDigits: 0,
+  });
+}

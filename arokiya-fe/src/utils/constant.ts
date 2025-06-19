@@ -16,3 +16,28 @@ export const bloodGroupList=[
     {label:'O-',value:'O-'},
 
 ]
+
+export const barchartDefaultValue ={
+    labels: ["January", "February", "March", "April", "May", "June","July","August","September","October","November","December"],
+    datasets: [
+      {
+        data: [0,0,0,0,0,0,0,0,0,0,0,0]
+      }
+    ]
+  }
+
+
+  export const pieChartDefaultValue = {
+    labels: [],
+    datasets: [
+      {
+        label: '',
+        data: [],
+        backgroundColor: [],
+        borderColor: [],
+        borderWidth: 1,
+      },
+    ],
+  };
+  
+  

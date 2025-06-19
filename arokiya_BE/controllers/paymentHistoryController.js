@@ -71,7 +71,6 @@ router.post('/chartDetails/', async (req, res) => {
           data:result
       }
   
-  console.log('=====',paymentList)
   
       res.status(200).json({data:paymentList})
   
