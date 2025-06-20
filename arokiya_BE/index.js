@@ -1,8 +1,10 @@
+require('dotenv').config();
+
 const express = require('express')
 const app = express()
 const mongoos = require('mongoose')
 app.use(express.json()) // Middleware
-const port = 4004
+const port = process.env.PORT
 const cors = require('cors');
 
 app.use(cors({
@@ -17,8 +19,7 @@ app.use(cors({
 //   databaseURL: "https://test-clofas-default-rtdb.firebaseio.com"
 // });
 
-const dbName = 'gym-dg'
-const uri = "mongodb+srv://jsriganesh535:clo_123@clofas.xtsjvzp.mongodb.net/gym-db?retryWrites=true&w=majority";
+const uri = process.env.CONNECTION_URL;
 
 // const Category = require('./models/membersModel');
 // const Item = require('./models/notusing_itemModel');
@@ -26,7 +27,7 @@ const uri = "mongodb+srv://jsriganesh535:clo_123@clofas.xtsjvzp.mongodb.net/gym-
 mongoos.connect(uri).then((res) => {
     console.log('Data base connected ☺️')
     app.listen(port, () => {
-        console.log('server is running in 4004 port')
+        console.log('server is running in '+ process.env.PORT+' port')
     })
 }).catch(error => console.log('error:', error))
 
