@@ -1,8 +1,19 @@
 import React from 'react';
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
-import { Pie } from 'react-chartjs-2';
 import { PieCharDataProps } from '../../interface/common';
+import {
+    Chart as ChartJS,
+    ArcElement,
+    Tooltip,
+    Legend,
+    ChartEvent,
+    ActiveElement,
+  } from 'chart.js';
+  import { Pie } from 'react-chartjs-2';
+  import type { Chart as ChartJSInstance } from 'chart.js';
+  
+  import type { ChartOptions } from 'chart.js';
 
+  
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 // export const data = {
@@ -34,9 +45,10 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 
 interface PieChartProps {
     chartData: PieCharDataProps
+    onClickChart?:(label:any,value:any)=>void
 }
-export function PieChart({chartData}:PieChartProps) {
-
+export function PieChart({chartData,onClickChart}:PieChartProps) {
+    console.log('chartData ==>',chartData)
     const preparData = {
         labels:chartData.map((chart)=> chart.name),
         datasets:[{
@@ -47,6 +59,29 @@ export function PieChart({chartData}:PieChartProps) {
             borderWidth:1,
         }]
     }
+
+    const options: ChartOptions<'pie'> = {
+        responsive: true,
+        plugins: {
+          legend: {
+            position: 'top', // ✅ Use valid string literal
+          },
+        },
+        onClick: (
+          event: ChartEvent,
+          elements: ActiveElement[],
+          chart: ChartJSInstance
+        ) => {
+          if (!elements.length) return;
+    
+          const { index } = elements[0];
+          const label = chart.data.labels?.[index];
+          const value = chart.data.datasets[0].data[index];
+          onClickChart && onClickChart(label,value)
+        },
+      };
+    
+    
     console.log('preparData =====>',preparData)
-  return <Pie data={preparData} />;
+  return <Pie data={preparData} options={options}/>;
 }

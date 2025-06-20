@@ -133,21 +133,24 @@ router.get('/dueAmountChartDetails', async (req, res) => {
               population: fullAmountPaid.length,
               color: '#68E19F',
               legendFontColor: '#68E19F',
-              legendFontSize: 12
+              legendFontSize: 12,
+              membersList:fullAmountPaid
             },
               {
                 name: "Fees not paid",
                 population: feesNotPaid.length,
                 color: '#F8D275',
                 legendFontColor: '#F8D275',
-                legendFontSize: 12
+                legendFontSize: 12,
+                membersList:feesNotPaid
               },
               {
                 name: "pending due Amount",
                 population: pendingDueAmount.length,
                 color: '#EA565B',
                 legendFontColor: '#EA565B',
-                legendFontSize: 12
+                legendFontSize: 12,
+                membersList:pendingDueAmount
               },
           ];
         

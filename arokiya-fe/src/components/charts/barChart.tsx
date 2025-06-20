@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -9,6 +9,8 @@ import {
   Legend,
   ChartOptions,
   ChartData,
+  ChartEvent,
+  ActiveElement
 } from 'chart.js';
 import { Bar } from 'react-chartjs-2';
 import { BarCharDataProps } from '../../interface/common';
@@ -37,8 +39,10 @@ interface  BarChartProps {
     label:string
     backgroundColor:string
     showCurrency?:boolean
+    onClickBar?:(label:string,value:any)=>void
 }
-export function BarChart({chartData,label,backgroundColor,showCurrency}:BarChartProps) {
+export function BarChart({chartData,label,backgroundColor,showCurrency,onClickBar}:BarChartProps) {
+  const chartRef = useRef<any>(null);
 
 
   const options: ChartOptions<'bar'> = {
@@ -95,6 +99,17 @@ export function BarChart({chartData,label,backgroundColor,showCurrency}:BarChart
           color: 'rgba(255, 255, 255, 0.1)',
         },
       },
+    },
+
+    onClick: (event: ChartEvent, elements: ActiveElement[], chart: any) => {
+      if (!elements.length) return;
+
+      const { datasetIndex, index } = elements[0];
+
+      const label = chart.data.labels[index];
+      const value = chart.data.datasets[datasetIndex].data[index];
+      onClickBar && onClickBar(label,value)
+      // alert(`Unlocked bar: ${label}, Value: ${value}`);
     },
   };
 

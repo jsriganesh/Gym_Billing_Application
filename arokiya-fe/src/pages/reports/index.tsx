@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import './index.scss'
 
 
 // const useStyles = makeStyles({
@@ -11,7 +12,6 @@ import React, { useEffect, useState } from 'react';
 
 
 import Datatable from '../../components/datatable';
-import './members.scss'
 import { useNavigate } from 'react-router-dom';
 import PageLayout from '../../components/pagelayout';
 import { CommonButton } from '../../components/button';
@@ -21,6 +21,9 @@ import { getAllMembers, getAllPlanList } from '../../services/commonApiService';
 import TabContainer from '../../components/tab';
 import { Box } from '@mui/material';
 import WebcamCapture from '../../components/webcamCapture';
+import { MembersJoinReport } from './membersJoinReport';
+import { PaymentReport } from './paymentReports';
+import { RevenuReport } from './RevenuReport';
 // import PageLayout from '../../components/pageLayout';
 // import CategoryAddAndEditModal from '../dashboard/createAndEditcategoryModal';
 
@@ -51,6 +54,9 @@ const Reports = () => {
     const { membersList } = useAppSelector((state) => state.commonData);
   const [selectedTab, upsateSelecetedTab] = React.useState(0);
 
+  useEffect(()=>{
+getAllMembers()
+  },[])
 
     //useStyles();
     const handleChange = (newValue: number) => {
@@ -61,41 +67,35 @@ const Reports = () => {
     
     return (
         <PageLayout>
-            <div className="category-container">
+            <div className="category-container over-all-report">
                 <div className='members-top-row'>
-                    <div className='body-sub-title'>Over ALL Report</div>
+                    <div className='body-sub-title'>Over All Report</div>
                 </div>
-                <div style={{ height: '90%', width: "100%", overflowY: 'scroll' }}>
-                <>
-              <TabContainer handleChange={handleChange} selectedTab={selectedTab} tabList={[
+                <div style={{ height: '90%', width: "100%", }}>
+
+              <TabContainer  handleChange={handleChange} selectedTab={selectedTab} tabList={[
                 { label: 'Members Join Report', iconPosition: 'end' },
                 { label: 'Revenu Report', iconPosition: 'end' },
                 { label: 'Payment Report', iconPosition: 'end' },
               ]} />
 
-
-              <CustomTabPanel value={selectedTab} index={0}>
-                <div>
-                  <img alt='logo' src={require('../../assets/images/comingsoon.jpg')} style={{ borderRadius: 100 }} />
+              <CustomTabPanel value={selectedTab} index={0} >
+                <div style={{height:'100%'}}>
+                <MembersJoinReport/>
                 </div>
               </CustomTabPanel>
+            
               <CustomTabPanel value={selectedTab} index={1}>
-                
+              <div style={{height:'100%'}}>
+                <RevenuReport/>
+                </div>
               </CustomTabPanel>
               <CustomTabPanel value={selectedTab} index={2}>
-                <div>
-                  <img alt='logo' src={require('../../assets/images/comingsoon.jpg')} style={{ borderRadius: 100 }} />
+              <div style={{height:'100%'}}>
+                <PaymentReport/>
                 </div>
               </CustomTabPanel>
-              <CustomTabPanel value={selectedTab} index={3}>
-                <div>
-                  <img alt='logo' src={require('../../assets/images/comingsoon.jpg')} style={{ borderRadius: 100 }} />
-                </div>
-
-              </CustomTabPanel>
-            </>
-                </div>
-
+              </div>
             </div>
         </PageLayout>
     );

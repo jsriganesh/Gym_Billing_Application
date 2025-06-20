@@ -1,0 +1,43 @@
+@import '../../scss/abstracts/variables';
+
+.category-container{
+    height: 100%;
+    // padding: 2rem;
+    // margin: 2rem;
+
+    .members-top-row{
+        justify-content: space-between;
+        height: 10%;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+}
+
+
+.over-all-report{
+    #simple-tabpanel-0 {
+        height: 90%;
+      }
+      
+      #simple-tabpanel-0 .MuiBox-root {
+        height: 100%;
+      }
+
+
+      #simple-tabpanel-1 {
+        height: 90%;
+      }
+      
+      #simple-tabpanel-1 .MuiBox-root {
+        height: 100%;
+      }
+
+      #simple-tabpanel-2 {
+        height: 90%;
+      }
+      
+      #simple-tabpanel-2 .MuiBox-root {
+        height: 100%;
+      }
+}

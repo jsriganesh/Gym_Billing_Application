@@ -110,4 +110,5 @@ export type PieCharDataProps = {
   color: string;
   legendFontColor: string;
   legendFontSize: number;
+  membersList:MemberDetails[]
 }[]

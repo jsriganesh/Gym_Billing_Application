@@ -33,10 +33,10 @@ export const isFutureDate = (dateString: string) => { //"2025-05-31T14:38:48.827
   return inputDate > today;
 }
 
-export const getNewJoinee = (membersList: MemberDetails[],getOnlyCount:boolean =false) => { //"2025-05-31T14:38:48.827Z"
+export const getNewJoinee = (membersList: MemberDetails[],getOnlyCount:boolean =false,defaultMonth?:number) => { //"2025-05-31T14:38:48.827Z"
 
   const now = new Date();
-  const currentMonth = now.getMonth(); // 0-11
+  const currentMonth =defaultMonth ? defaultMonth : now.getMonth(); // 0-11
   const currentYear = now.getFullYear();
 
   const currentMonthJoins = membersList.filter(member => {
