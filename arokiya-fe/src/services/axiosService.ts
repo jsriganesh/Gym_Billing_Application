@@ -1,5 +1,6 @@
 import axios from 'axios';
-const baseUrl = 'http://192.168.0.151:4004';
+// const baseUrl = 'http://192.168.31.30:4004';
+const baseUrl = 'http://13.60.234.221:4004'
 
 // const baseUrl = 'http://192.168.43.33:4004';
 // const baseUrl = 'http://192.168.1.38:4004';
