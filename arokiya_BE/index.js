@@ -9,7 +9,7 @@ const cors = require('cors');
 
 app.use(cors({
   // origin: 'http://localhost:3000',  // Allow requests from your local frontend
-  origin: 'https://main.ds136pue90r52.amplifyapp.com/dashboard'
+  origin: 'https://main.ds136pue90r52.amplifyapp.com'
 }));
 
 
