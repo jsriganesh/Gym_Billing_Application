@@ -9,13 +9,15 @@ import { store } from './redux/store';
 import PlanList from './pages/planList';
 import FeesPay from './pages/feesPay';
 import Reports from './pages/reports';
+import LoginPage from './pages/login';
 function App() {
   return (
     <Provider store={store}>
     <div className="App">
       <BrowserRouter>
         <Routes>
-            <Route path="/" element={<Dashboard />} />
+            <Route path="/" element={<LoginPage />} />
+            <Route path="/login" element={<LoginPage />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/members" element={<Members />} />
             <Route path="/memberDetails" element={<MemberDetails />} />
