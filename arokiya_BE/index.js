@@ -8,8 +8,8 @@ const port = process.env.PORT
 const cors = require('cors');
 
 app.use(cors({
-  // origin: 'http://localhost:3000',  // Allow requests from your local frontend
-  origin: 'https://main.ds136pue90r52.amplifyapp.com'
+  origin: 'http://localhost:3000',  // Allow requests from your local frontend
+  // origin: 'https://main.ds136pue90r52.amplifyapp.com'
 }));
 
 
@@ -39,6 +39,9 @@ const paymentHistoryController = require('./controllers/paymentHistoryController
 const planController = require('./controllers/planController');
 const renewPlanController = require('./controllers/renewPlanController');
 const dietPlanController = require('./controllers/dietPlanController');
+
+const usersController = require('./controllers/usersController');
+
 // const paymentRepotyChartController = require('./controllers/not-using-paymentReportChartController');
 
 // const itemController = require('./controllers/notusing_itemController');
@@ -47,6 +50,7 @@ app.use('/plan', planController);
 app.use('/paymentHistory', paymentHistoryController);
 app.use('/renewplan',renewPlanController );
 app.use('/dietPlan',dietPlanController );
+app.use('/users',usersController );
 // app.use('/paymentReportChar',paymentRepotyChartController );
 
 // app.use('/item', itemController);

@@ -8,5 +8,6 @@ export const EndPoint = {
     paymentChartDetails:'/paymentHistory/chartDetails',
     membersChartDetails:'/members/chartDetails',
     membersPaymentChartDetails:'/members/dueAmountChartDetails',
+    doLogin:'/users/login',
 
 }
