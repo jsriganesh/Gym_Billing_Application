@@ -8,7 +8,7 @@ const port = process.env.PORT
 const cors = require('cors');
 
 app.use(cors({
-  origin: 'http://localhost:3000',  // Allow requests from your local frontend
+  origin: 'http://localhost:3001',  // Allow requests from your local frontend
   // origin: 'https://main.ds136pue90r52.amplifyapp.com'
 }));
 
@@ -20,7 +20,7 @@ app.use(cors({
 //   databaseURL: "https://test-clofas-default-rtdb.firebaseio.com"
 // });
 
-const uri = process.env.CONNECTION_URL;
+const uri = process.env.CONNECTION_URL_PROD;
 
 // const Category = require('./models/membersModel');
 // const Item = require('./models/notusing_itemModel');
