@@ -22,13 +22,11 @@ router.post('/', async (req, res) => {
 })
 
 
-const parseDate=(dateStr)=> {
-    const [day, month, year] = dateStr.split('-').map(Number);
-    return new Date(year, month - 1, day); // month is 0-indexed in JS Date
-}
+// const parseDate=(dateStr)=> {
+//     const [day, month, year] = dateStr.split('-').map(Number);
+//     return new Date(year, month - 1, day); // month is 0-indexed in JS Date
+// }
 
-
-// paymentHistory
 
 
 router.post('/chartDetails/', async (req, res) => {
@@ -84,6 +82,7 @@ router.post('/chartDetails/', async (req, res) => {
 
 router.post('/filter/', async (req, res) => {
   try {
+    console.log('fromDate-toDate==')
 
     let data = {...req.body}
     // const fromDate = new Date(data.fromDate);
@@ -91,9 +90,11 @@ router.post('/filter/', async (req, res) => {
 
     const fromDate = data.fromDate;
     const toDate = data.toDate;
-   
-    const paymentHistory = await PaymentHistory.where('paidDate').gt(fromDate).where('paidDate').lt(toDate)
+    console.log('fromDate-toDate==',fromDate,toDate)
 
+    // paymentHistory/filter
+    const paymentHistory = await PaymentHistory.where('paidDate').gt(fromDate).where('paidDate').lt(toDate)
+console.log('paymentHistory==',paymentHistory)
     // const result = await PaymentHistory.find({
     //     paidDate: { $gt: fromDate, $lt: toDate }
     //   });

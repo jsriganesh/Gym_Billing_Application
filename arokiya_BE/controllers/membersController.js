@@ -36,6 +36,14 @@ router.post('/', async (req, res) => {
         const {dateOfJoin} = memberDetails
         const {planDetails} = memberDetails
         const id = new Date().getTime()
+
+        // if no plan details just create member  
+        if(!planDetails || Object.keys(planDetails).length === 0){
+                const member = await Category.create(memberDetails)
+                res.status(200).json(member)
+        }
+
+
         const nextPaymentDate = convertToISO(moment(new Date(moment(dateOfJoin))).add(planDetails.duration, 'days'))
         memberDetails={...memberDetails,nextPaymentDate:nextPaymentDate,memberID:id}
         console.log('req =',memberDetails)

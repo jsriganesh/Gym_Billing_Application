@@ -8,8 +8,9 @@ const port = process.env.PORT
 const cors = require('cors');
 
 app.use(cors({
-  origin: 'https://main.ds136pue90r52.amplifyapp.com'
+  // origin: 'https://main.ds136pue90r52.amplifyapp.com'
   // origin: 'http://localhost:3001',  // Allow requests from your local frontend
+  origin: 'http://localhost:8080',  // Allow requests from your local frontend
   // origin: 'https://main.ds136pue90r52.amplifyapp.com'
 }));
 
