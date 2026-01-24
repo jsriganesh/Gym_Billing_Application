@@ -6,7 +6,7 @@ const paymentHistorySchema = mongoose.Schema(
             required:[true,'Please Enter the member name']
         },
         memberID:{
-            type:Number,
+            type:String,
             required:[true,'Please Enter the  memberID']
         },
         paidDate:{

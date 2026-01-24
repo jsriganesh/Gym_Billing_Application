@@ -4,7 +4,8 @@ const Category = require('../models/membersModel');
 var moment = require('moment');
 const { default: axios } = require('axios');
 const { convertToISO } = require('../commonMethods');
-
+// const { generateUserId } = require('../commonMethods/generateUserId');
+const generateUserId = require('../commonMethods/generateUserId');
 // // Index route
 // router.get('/', async (req, res) => {
 //     try {
@@ -30,12 +31,13 @@ const { convertToISO } = require('../commonMethods');
 
 router.post('/', async (req, res) => {
     try {
+        const userId = await generateUserId();
 
 
         let memberDetails = {...req.body}
         const {dateOfJoin} = memberDetails
         const {planDetails} = memberDetails
-        const id = new Date().getTime()
+        // const id = new Date().getTime()
 
         // if no plan details just create member  
         if(!planDetails || Object.keys(planDetails).length === 0){
@@ -45,12 +47,12 @@ router.post('/', async (req, res) => {
 
 
         const nextPaymentDate = convertToISO(moment(new Date(moment(dateOfJoin))).add(planDetails.duration, 'days'))
-        memberDetails={...memberDetails,nextPaymentDate:nextPaymentDate,memberID:id}
+        memberDetails={...memberDetails,nextPaymentDate:nextPaymentDate,memberID:userId}
         console.log('req =',memberDetails)
 
         const paymentRequest = {
             memberName:memberDetails.memberName,
-            memberID:id,
+            memberID:userId,
             paidDate:dateOfJoin,
             paidDateStr:moment(dateOfJoin).format('DD/MM/YYYY'),
             paidAmount:planDetails.paidAmount,

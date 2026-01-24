@@ -46,9 +46,10 @@ const categorySchema = mongoose.Schema(
             required:[false,'']
         },
         memberID:{
-            type:String,
-            required:[true,'Please enter the Member is']
-        },
+            type: String,
+            unique: true,
+            required: true
+          },
         gender:{
             type:String,
             required:[true,'Please enter the gender']
